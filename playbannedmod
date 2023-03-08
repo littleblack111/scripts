@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+rm -rf ~/Games/Minecraft\(Mod\)/Banned-Mods.tmp && cp -r ~/Games/Minecraft\(Mod\)/Normal-Fabric/ ~/Games/Minecraft\(Mod\)/Banned-Mods.tmp && cp ~/Games/Minecraft\(Mod\)/Banned-Mods/* ~/Games/Minecraft\(Mod\)/Banned-Mods.tmp/mods/ && echo && echo "install sussfull!" && echo "Please add a new profile in minecraft launcher, directory copied in clipboard" && echo "~/Games/Minecraft\(Mod\)/Banned-Mods.tmp" | xclip -selection clipboard; echo && echo "~/Games/Minecraft\(Mod\)/Banned-Mods.tmp" && $SHELL && rm -rf ~/Games/Minecraft\(Mod\)/Banned-Mods.tmp

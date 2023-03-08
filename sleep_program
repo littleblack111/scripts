@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+suspend ()
+{
+    killall -STOP "$1" > /dev/null 2>&1 &
+}
+
+resume ()
+{
+    killall -CONT "$1" > /dev/null 2>&1 &
+}
+
+stop ()
+{
+    suspend caja
+    suspend Discord
+    suspend code
+    suspend chat-gpt
+    suspend backgroundblur
+    killall -15 brave > /dev/null 2>&1 || nobrave=true
+}
+
+cont ()
+{
+    if [[ $nobrave = true ]]; then
+        setsid brave --restore-last-session > /dev/null 2>&1 &
+    fi
+    resume chat-gpt
+    resume code
+    resume Discord
+    resume caja
+    resume backgroundblur
+}

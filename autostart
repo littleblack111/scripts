@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#ln -s /mnt/DATA ~/DATA
+#ln -s /mnt/DATA/Code ~/Code
+#ln -s /mnt/DATA/Code/Random ~/Random
+#ln -s /mnt/DATA/Games ~/Games
+#ln -s /mnt/DATA/Applications ~/Applications
+#ln -s /mnt/DATA/Downloads ~/Downloads
+
+#rm -rf ~/Downloads/*
+

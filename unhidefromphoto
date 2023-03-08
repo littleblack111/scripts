@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+[[ -v "$1" ]] && steghide extract -sf $1 || printf "Usage: \n\t$(basename "$0") <photo to extract>"

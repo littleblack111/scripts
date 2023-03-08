@@ -1,0 +1,5 @@
+#!/bin/sh
+while true; do
+    $HOME/.config/bspwm/scripts/backgroundblur -i $(shuf -n 1 -e $(find /home/system/Pictures/wallpapers) | head -n 1) &
+    sleep 1800
+done

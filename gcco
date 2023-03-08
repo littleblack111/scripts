@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [ -n "${2+x}" ]; then
+    gcc -Wall -Wextra -std=c11 -g $1 -o $2
+else
+    gcc -Wall -Wextra -std=c11 -g $1 -o ${1%.*}.o
+fi
+

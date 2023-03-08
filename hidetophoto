@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+[[ -v "$1" ]] && [[ -v "$2" ]] && steghide embed -cd $1 -ef $2 || printf "Usage: \n\t$(basename "$0") <photo to hide in> <hidden file>"
