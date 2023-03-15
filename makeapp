@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+from os import system as cmd
+from sys import stderr
+
+
+def main():
+    # if furture going to C, put those into header file
+    # ==================================================================================== #
+    appname = input(":: Enter App name(Name):\n")
+    appgename = input(":: Enter App Generic Name(Can be leaved as blank):\n")
+    appicon = input(":: Package Icon(Can be leaved as blank):\n")
+    appexec = input(":: Where is the App script(exec):\n")
+    appcomm = input(":: Comment about the App(Can be leaved as blank):\n")
+    otherextras = input(":: Extras Argument for the .desktop?(going to be echoed into the file)(Can be leaved blank):\n")
+    # ==================================================================================== #
+    # checking
+    # can leave blank
+    if len(appgename) <= 0:
+        noappgename = True
+    if len(appicon) <= 0:
+        noappicon = True
+    if len(otherextras) <= 0:
+        notherextras = True
+    if len(appcomm) <= 0:
+        noappcomm = True
+    # reuired
+    if len(appname) <= 0 or len(appexec) <= 0:
+        stderr.write("Please fill out the reuired options\n")
+        exit(1)
+    # main functions
+    def mainprocess():
+        cmd(f"sudo touch /usr/share/applications/{appname}.desktop")
+        cmd(f"sudo echo") 
+
+#### dont want to do this anymore kinda useless.
