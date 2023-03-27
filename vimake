@@ -1,1 +1,4 @@
-lvim Makefile
+if [ -e "Makefile" ]; then  
+    lvim Makefile
+else
+    printf "No Makefile"

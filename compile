@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+if [[ ${1##*.} == "asm" ]]; then
+    printf "\$ nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o\n"
+    nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o
+    printf "compiled into ${1%.*}.o\n"
+    printf "\$ ld ${1%.*}.o -o ${1%.*}"
+    ld ${1%.*}.o -o ${1%.*}
+    printf "linked into ${1%.*}\n"
+    printf "compiled into executable"
+elif [[ ${1##*.} == "c" || ${1##*.} == "cc" ]]; then
+    printf "\$ gcc $1 -o ${1%.*}\n"
+    gcc $1 -o ${1%.*}
+    printf "compiled into ${1%.*}\n"
+elif [[ ${1##*.} == "cpp" ]]; then
+    printf "\$ g++ $1 -o ${1%.*}\n"
+    g++ $1 -o ${1%.*}
+    printf "compiled into ${1%.*}\n"
+elif [[ ${1##*.} == "go" ]]; then
+    printf "\$ go build $1\n"
+    go build $1
+    printf "compiled into ${1%.*}\n"
+elif [[ ${1##*.} == "cs" ]]; then
+    printf "\$ csc $1\n"
+    csc $1
+    printf "compiled into ${1%.*}.exe\n"
+elif [[ ${1##*.} == "java" ]]; then
+    printf "\$ javac $1\n"
+    javac $1
+    printf "compiled into ${1%.*}.class\n"
+elif [[ ${1##*.} == "py" ]]; then
+    printf "\$ python -m py_compile $1\n"
+    python -m py_compile $1
+    printf "compiled into ${1%.*}.pyc\n"
+elif [[ ${1##*.} == "rb" ]]; then
+    printf "\$ ruby -wc $1\n"
+    ruby -wc $1
+    printf "compiled into ${1%.*}\n"
+elif [[ ${1##*.} == "js" ]]; then
+    printf "\$ node $1\n"
+    node $1
+    printf "compiled into ${1%.*}\n"
+elif [[ ${1##*.} == "ts" ]]; then
+    printf "\$ tsc $1\n"
+    tsc $1
+    printf "compiled into ${1%.*}.js\n"
+elif [[ ${1##*.} == "dart" ]]; then
+    printf "\$ dart compile exe $1\n"
+    dart compile exe $1
+    printf "compiled into ${1%.*}\n"
+elif [[ ${1##*.} == "rs" ]]; then
+    printf "\$ rustc $1\n"
+    rustc $1
+    printf "compiled into ${1%.*}\n"
+elif [ -e "Makefile" ]; then
+    make
+    sudo make install
+else
+    printf "${RED}ERROR: nothing compiled.\n"
+fi
