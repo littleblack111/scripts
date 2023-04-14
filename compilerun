@@ -3,37 +3,69 @@
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+function iferrorcomp ()
+{
+    if [[ error -eq 1 ]]; then
+        printf "$RED\Crit: ERROR had occured during copmile!!\n"
+        exit 1
+    fi
+}
+
 if [[ ${1##*.} == "asm" ]]; then
     printf "\$ nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o\n"
-    nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o
+    nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o || error=1
+    if [[ error -eq 1 ]]; then
+        printf "\$ nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o: $RED\error had occured\n"
+        exit 1
+    fi
     printf "compiled into ${1%.*}.o\n"
-    printf "\$ ld ${1%.*}.o -o ${1%.*}"
-    ld ${1%.*}.o -o ${1%.*}
+    printf "\$ ld ${1%.*}.o -o ${1%.*}\n"
+    ld ${1%.*}.o -o ${1%.*} || error=1
+    if [[ error -eq 1 ]]; then
+        printf "\$ ld ${1%.*}.o -o ${1%.*}: $RED\error had occured\n"
+        exit 1
+    fi
     printf "linked into ${1%.*}\n"
-    printf "compiled into executable ${1%.*}"
+    printf "compiled into executable ${1%.*}\n"
     printf "Running \"${1%.*}\"\n\n"
     ./${1%.*}
 elif [[ ${1##*.} == "c" || ${1##*.} == "cc" ]]; then
     printf "\$ gcc $1 -o ${1%.*}\n"
-    gcc $1 -o ${1%.*}
+    gcc $1 -o ${1%.*} || error=1
+    if [[ error -eq 1 ]]; then
+        printf "\$ gcc $1 -o ${1%.*}: $RED\error had occured\n"
+        exit 1
+    fi
     printf "compiled into ${1%.*}\n"
     printf "Running \"${1%.*}\"\n\n"
     ./${1%.*}
 elif [[ ${1##*.} == "cpp" ]]; then
     printf "\$ g++ $1 -o ${1%.*}\n"
-    g++ $1 -o ${1%.*}
+    g++ $1 -o ${1%.*} || error=1
+    if [[ error -eq 1 ]]; then
+        printf "\$ g++ $1 -o ${1%.*}: $RED\error had occured\n"
+        exit 1
+    fi
     printf "compiled into ${1%.*}\n"
     printf "Running \"${1%.*}\"\n\n"
     ./${1%.*}
 elif [[ ${1##*.} == "go" ]]; then
     printf "\$ go build $1\n"
     go build $1
-    printf "compiled"
+    if [[ error -eq 1 ]]; then
+        printf "$RED\Crit: ERROR had occured during build!!\n"
+        exit 1
+    fi
+    printf "compiled\n"
     printf "Running \$ go run $1"
     go run $1
 elif [[ ${1##*.} == "cs" ]]; then
     printf "\$ csc $1\n"
     csc $1
+    if [[ error -eq 1 ]]; then
+        printf "$RED\Crit: ERROR had occured during copmile!!\n"
+        exit 1
+    fi
     printf "compiled into ${1%.*}.exe\n"
     printf "Running \"${1%.*}\"\n\n"
     mono ${1%.*}.exe
@@ -80,4 +112,5 @@ elif [ -e "Makefile" ]; then
     sudo make install
 else
     printf "${RED}ERROR: nothing compiled or runed.\n"
+    exit 1
 fi
