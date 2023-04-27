@@ -1,0 +1,2 @@
+bin/autoclicker filter=lfs diff=lfs merge=lfs -text
+bin/autoclicker-pyautogui filter=lfs diff=lfs merge=lfs -text
