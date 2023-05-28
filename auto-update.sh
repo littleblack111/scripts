@@ -2,7 +2,7 @@
 
 
 while true; do
-    if [[ "$(systemctl is-system-running)" == "running" ]]; then
+    if [[ "$(systemctl is-system-running)" == "running" || "$(systemctl is-system-running)" == "degraded" ]]; then
         if [[ "$(xprintidle)" -gt 600000 ]]; then  # Changed from 600000 (10 minutes) to 3600000 (1 hour)
             #sudo #exec sudo /usr/bin/reflector @/etc/xdg/reflector/reflector.conf &
             touch /home/system/updated-via-auto-update
