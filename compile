@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-RED='\033[0;31m'
+RED='\033[0;31m\033[1m'
 NC='\033[0m' # No Color
 
 if [[ ${1##*.} == "asm" ]]; then
@@ -32,9 +32,10 @@ elif [[ ${1##*.} == "java" ]]; then
     javac $1
     printf "compiled into ${1%.*}.class\n"
 elif [[ ${1##*.} == "py" ]]; then
-    printf "\$ python -m py_compile $1\n"
-    python -m py_compile $1
-    printf "compiled into ${1%.*}.pyc\n"
+    printf "\$ pyinstaller -F $1\n"
+    #python -m py_compile $1
+    pyinstaller -F $1
+    printf "compiled into dist/${1%.*}\n"
 elif [[ ${1##*.} == "rb" ]]; then
     printf "\$ ruby -wc $1\n"
     ruby -wc $1
