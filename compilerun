@@ -28,7 +28,7 @@ if [[ ${1##*.} == "asm" ]]; then
     printf "linked into ${1%.*}\n"
     printf "compiled into executable ${1%.*}\n"
     printf "Running \"${1%.*}\"\n\n"
-    ./${1%.*}
+    ./${1%.*} "${@:2}"
 elif [[ ${1##*.} == "c" || ${1##*.} == "cc" ]]; then
     printf "\$ gcc $1 -o ${1%.*}\n"
     gcc $1 -o ${1%.*} || error=1
@@ -38,7 +38,7 @@ elif [[ ${1##*.} == "c" || ${1##*.} == "cc" ]]; then
     fi
     printf "compiled into ${1%.*}\n"
     printf "Running \"${1%.*}\"\n\n"
-    ./${1%.*}
+    ./${1%.*} "${@:2}"
 elif [[ ${1##*.} == "cpp" ]]; then
     printf "\$ g++ $1 -o ${1%.*}\n"
     g++ $1 -o ${1%.*} || error=1
@@ -48,7 +48,7 @@ elif [[ ${1##*.} == "cpp" ]]; then
     fi
     printf "compiled into ${1%.*}\n"
     printf "Running \"${1%.*}\"\n\n"
-    ./${1%.*}
+    ./${1%.*} "${@:2}"
 elif [[ ${1##*.} == "go" ]]; then
     printf "\$ go build $1\n"
     go build $1
@@ -58,28 +58,28 @@ elif [[ ${1##*.} == "go" ]]; then
     fi
     printf "compiled\n"
     printf "Running \$ go run $1"
-    go run $1
+    go run $1 "$@"
 elif [[ ${1##*.} == "cs" ]]; then
     printf "\$ csc $1\n"
-    csc $1
+    csc ${@:2}
     if [[ error -eq 1 ]]; then
         printf "$RED\Crit: ERROR had occured during copmile!!\n"
         exit 1
     fi
     printf "compiled into ${1%.*}.exe\n"
     printf "Running \"${1%.*}\"\n\n"
-    mono ${1%.*}.exe
+    mono ${1%.*}.exe "${@:3}"
 elif [[ ${1##*.} == "java" ]]; then
     printf "\$ javac $1\n"
     javac $1
     printf "compiled into ${1%.*}.class\n"
     printf "Running \"${1%.*}\"\n\n"
-    java ${1%.*}
+    java ${1%.*} "${@:3}"
 elif [[ ${1##*.} == "py" ]]; then
     printf "\$ pyinstaller -F $1\n"
     pyinstaller -F $1
     printf "Running \"./dist/${1%.*}\""
-    ./dist/${1%.*}
+    ./dist/${1%.*} "${@:2}"
 #elif [[ ${1##*.} == "rb" ]]; then
     #printf "\$ ruby -wc $1\n"
     #ruby -wc $1
@@ -88,25 +88,26 @@ elif [[ ${1##*.} == "py" ]]; then
     #ruby $1
 elif [[ ${1##*.} == "js" ]]; then
     printf "\$ node $1\n"
-    node $1
+    node $1 "${@:3}"
     printf "Running $1"
 elif [[ ${1##*.} == "ts" ]]; then
     printf "\$ tsc $1\n"
-    tsc $1
+    tsc $1 "${@:3}"
     printf "compiled into ${1%.*}.js\n"
     printf "Running \$ ts-node $1"
-    ts-node $1
+    ts-node $1 "${@:3}"
 elif [[ ${1##*.} == "dart" ]]; then
     printf "\$ dart compile exe $1\n"
     dart compile exe $1
     printf "compiled into ${1%.*}\n"
     printf "Running \$ dart $1"
-    dart $1
+    dart $1 "${@:3}"
 elif [[ ${1##*.} == "rs" ]]; then
     printf "\$ rustc $1\n"
     rustc $1
     printf "compiled into ${1%.*}\n"
     printf "Running \$ ./${1%.*}"
+    ./${1%.*} "${@:2}"
 elif [ -e "Makefile" ]; then
     make
     sudo make install
