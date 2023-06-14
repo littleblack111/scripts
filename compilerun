@@ -10,19 +10,23 @@ function iferrorcomp ()
         exit 1
     fi
 }
+if [[ ! -f $1 || ! $1 && ! -f Makefile ]]; then
+    printf "$RED No file/arguments given.\n"
+    exit 1
+fi
 
 if [[ ${1##*.} == "asm" ]]; then
     printf "\$ nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o\n"
     nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o || error=1
     if [[ error -eq 1 ]]; then
-        printf "\$ nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o: $RED\error had occured\n"
+        printf "\n\$ nasm -f elf64 -g -F dwarf $1 -l ${1%.*}.lst -o ${1%.*}.o: $RED\error had occured\n"
         exit 1
     fi
     printf "compiled into ${1%.*}.o\n"
     printf "\$ ld ${1%.*}.o -o ${1%.*}\n"
     ld ${1%.*}.o -o ${1%.*} || error=1
     if [[ error -eq 1 ]]; then
-        printf "\$ ld ${1%.*}.o -o ${1%.*}: $RED\error had occured\n"
+        printf "\n\$ ld ${1%.*}.o -o ${1%.*}: $RED\error had occured\n"
         exit 1
     fi
     printf "linked into ${1%.*}\n"
@@ -33,7 +37,7 @@ elif [[ ${1##*.} == "c" || ${1##*.} == "cc" ]]; then
     printf "\$ gcc $1 -o ${1%.*}\n"
     gcc $1 -o ${1%.*} || error=1
     if [[ error -eq 1 ]]; then
-        printf "\$ gcc $1 -o ${1%.*}: $RED\error had occured\n"
+        printf "\n\$ gcc $1 -o ${1%.*}: $RED\error had occured\n"
         exit 1
     fi
     printf "compiled into ${1%.*}\n"
@@ -43,7 +47,7 @@ elif [[ ${1##*.} == "cpp" ]]; then
     printf "\$ g++ $1 -o ${1%.*}\n"
     g++ $1 -o ${1%.*} || error=1
     if [[ error -eq 1 ]]; then
-        printf "\$ g++ $1 -o ${1%.*}: $RED\error had occured\n"
+        printf "\n\$ g++ $1 -o ${1%.*}: $RED\error had occured\n"
         exit 1
     fi
     printf "compiled into ${1%.*}\n"
@@ -53,7 +57,7 @@ elif [[ ${1##*.} == "go" ]]; then
     printf "\$ go build $1\n"
     go build $1
     if [[ error -eq 1 ]]; then
-        printf "$RED\Crit: ERROR had occured during build!!\n"
+        printf "\n$RED\Crit: ERROR had occured during build!!\n"
         exit 1
     fi
     printf "compiled\n"

@@ -7,6 +7,8 @@ while true; do
             if [ ! -f /var/lock/idle.lock ]; then
                 $HOME/scripts/update.sh &
                 killall picom; bspcomp &
+                sleep 350
+                killall update.sh
                 sudo touch /var/lock/idle.lock
             elif [[ "$(xprintidle)" -le 50 ]]; then
                 sudo rm -f /var/lock/idle.lock
