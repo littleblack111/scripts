@@ -1,0 +1,4 @@
+chat-server filter=lfs diff=lfs merge=lfs -text
+NekoMC filter=lfs diff=lfs merge=lfs -text
+autoclicker-left filter=lfs diff=lfs merge=lfs -text
+autoclicker-right filter=lfs diff=lfs merge=lfs -text
