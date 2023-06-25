@@ -80,10 +80,11 @@ elif [[ ${1##*.} == "java" ]]; then
     printf "Running \"${1%.*}\"\n\n"
     java ${1%.*} "${@:3}"
 elif [[ ${1##*.} == "py" ]]; then
-    printf "\$ pyinstaller -F $1\n"
-    pyinstaller -F $1
-    printf "Running \"./dist/${1%.*}\""
-    ./dist/${1%.*} "${@:2}"
+    #printf "\$ pyinstaller -F $1\n"
+    #pyinstaller -F $1
+    #printf "Running \"./dist/${1%.*}\""
+    #./dist/${1%.*} "${@:2}"
+    printf "Running ./$@"
 #elif [[ ${1##*.} == "rb" ]]; then
     #printf "\$ ruby -wc $1\n"
     #ruby -wc $1

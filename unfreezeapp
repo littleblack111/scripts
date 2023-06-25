@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Define the function to get the list of running GUI applications
+running_gui_apps() {
+    applications=()
+
+    # loop through all open windows (ids)
+    for win_id in $( wmctrl -l | cut -d' ' -f1 ); do 
+
+        # test if window is a normal window
+        if  $( xprop -id $win_id _NET_WM_WINDOW_TYPE | grep -q _NET_WM_WINDOW_TYPE_NORMAL ) ; then 
+
+            # get the process ID of the window
+            pid=$( xprop -id $win_id _NET_WM_PID | cut -d' ' -f3 )
+
+            # get the process name from the process ID using ps
+            pname=$( ps -p $pid -o comm= )
+
+            # add to result list
+            applications+=( "$pname" ) 
+
+        fi
+
+    done
+
+    # sort result list and remove duplicates  
+    readarray -t applications < <(printf '%s\0' "${applications[@]}" | sort -z | xargs -0n1 | uniq)
+
+    printf '%s\n' "${applications[@]}" 
+}
+
+# Call the function to get the list of running GUI applications
+apps=$(running_gui_apps)
+
+# Replace newline characters with spaces using tr
+apps=$(echo "$apps" | tr '\n' ' ')
+
+# Use killall with the -STOP option and the modified apps variable to stop the applications
+killall -CONT $apps

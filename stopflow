@@ -1,0 +1,12 @@
+if [ -f /var/lock/workflow.lock ]; then
+    sudo rm -f /var/lock/workflow.lock
+else
+    echo "workflow not started, use stopapp to stop flow apps"
+    exit 1
+fi
+    
+killall -15 thunar
+killall -15 Discord
+killall -15 $BROWSER
+killall -15 $TERM
+

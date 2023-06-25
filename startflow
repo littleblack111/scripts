@@ -1,0 +1,14 @@
+if [ -w /var/lock/workflow.lock ]; then
+    sudo touch /var/lock/workflow.lock
+else
+    echo 'flow already started, use startapp to start flow apps'
+fi
+thunar > /dev/null 2>&1 & 
+tpid=$!
+discord > /dev/null 2>&1 & 
+#dpid=$!
+$BROWSER --restore-last-session > /dev/null 2>&1 &
+#bpid=$!
+$TERM > /dev/null 2>&1 &
+#apid=$!
+

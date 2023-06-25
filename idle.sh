@@ -7,11 +7,16 @@ while true; do
             if [ ! -f /var/lock/idle.lock ]; then
                 sudo touch /var/lock/idle.lock
                 $HOME/scripts/update.sh &
+                NekoMC --pause &
                 killall picom; bspcomp &
                 sleep 350
                 killall update.sh
+                freezeapp &
+                continue
             elif [[ "$(xprintidle)" -le 100 ]]; then
                 sudo rm -f /var/lock/idle.lock
+                unfreezeapp &
+                NekoMC --play &
                 continue
             else
                 sleep 5

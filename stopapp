@@ -1,0 +1,7 @@
+killall -15 thunar
+killall -15 Discord
+killall -15 $BROWSER
+killall -15 $TERM
+
+
+
