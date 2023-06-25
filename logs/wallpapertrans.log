@@ -7548,3 +7548,7 @@ convert: CorruptImageProfile `/home/system/.cache/wallpaper/old.jpg' (XMP) @ war
 0
 
 脚本完成于 2023-06-25 13:50:32+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2023-06-25 14:20:32+08:00 [COMMAND="/home/system/.config/bspwm/scripts/wallpapertrans.sh" <not executed on terminal>]
+0
+
+脚本完成于 2023-06-25 14:20:35+08:00 [COMMAND_EXIT_CODE="0"]
