@@ -37,3 +37,5 @@ apps=$(echo "$apps" | tr '\n' ' ')
 
 # Use killall with the -STOP option and the modified apps variable to stop the applications
 killall -CONT $apps
+killall -CONT polybar
+exec $HOME/scripts/runtransani.sh &
