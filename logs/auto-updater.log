@@ -8,3 +8,8 @@
 /home/system/scripts/update.sh:行13: brew：未找到命令
 ^@
 脚本完成于 2023-07-23 14:02:43+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2023-07-23 15:18:02+08:00 [COMMAND="/home/system/scripts/update.sh" <not executed on terminal>]
+/home/system/scripts/update.sh:行13: brew：未找到命令
+/home/system/scripts/update.sh: 第 13 行：wait: “”: 不是有效的进程号或者任务声明
+^@
+脚本完成于 2023-07-23 15:18:02+08:00 [COMMAND_EXIT_CODE="0"]
