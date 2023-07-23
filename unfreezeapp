@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# in order to execute the function, X env have to be prepared
+#killall -CONT Xorg
+
 # Define the function to get the list of running GUI applications
 running_gui_apps() {
     applications=()
@@ -36,6 +39,7 @@ apps=$(running_gui_apps)
 apps=$(echo "$apps" | tr '\n' ' ')
 
 # Use killall with the -STOP option and the modified apps variable to stop the applications
+bspcomp & #killall -CONT picom
 killall -CONT $apps
 killall -CONT polybar
 exec $HOME/scripts/runtransani.sh &
