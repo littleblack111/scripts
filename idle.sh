@@ -22,13 +22,14 @@ while true; do
             elif [ $mutev ] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
                 notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)"
             fi
-            script -c "$HOME/scripts/update.sh" $HOME/scripts/logs/auto-updater.log -a --force
+            script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
             if [ $pmusic ] && [[ $(NekoMC --status) == "Playing" ]]; then
                 m=true
             fi
             if [ $pmusic ] && [ $m ]; then
                 NekoMC --pause &
             fi
+            script -c "$HOME/scripts/clearcliphis.sh" $HOME/scripts/logs/clearcliphis.log -a --force
             #killall picom; bspcomp & # paused in freezeapp and unfreezeapp
             # Disable mouse just in case accidental awake for high DPI rate mouse
             xinput --disable 12

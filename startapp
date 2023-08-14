@@ -1,6 +1,6 @@
 thunar > /dev/null 2>&1 & 
 #tpid=$!
-discord > /dev/null 2>&1 & 
+vencord > /dev/null 2>&1 & 
 #dpid=$!
 $BROWSER --restore-last-session > /dev/null 2>&1 &
 #bpid=$!
