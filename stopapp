@@ -1,5 +1,5 @@
 killall -15 thunar
-killall -15 vencorddesktop
+#killall -15 vencorddesktop
 killall -15 $BROWSER
 killall -15 $TERM
 

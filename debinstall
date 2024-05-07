@@ -3187,7 +3187,8 @@ fakeroot << EOF
 tar --force-local -pcf `grep '^pkgname =' .PKGINFO | gawk '{print $3}'`-`grep '^pkgver =' .PKGINFO | gawk '{print $3}'`-`grep '^arch =' .PKGINFO | gawk '{print $3}'`.pkg.tar --exclude='pkgbuildinstallations*' * .PKGINFO .INSTALL .MTREE 2> /dev/null
 zstd -q -T0 --ultra -20 *.tar
 EOF
-if [[ "$install" == set ]]
+fi
+if [[ "$install" == set ]]; then
     packagename=$(ls *.zst)
     pacman -U $packagename
 else
