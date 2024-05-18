@@ -11029,3 +11029,40 @@ See 'feh --help' or 'man feh' for detailed usage information
 0
 
 脚本完成于 2023-08-14 16:13:21+08:00 [COMMAND_EXIT_CODE="0"]
+Script started on 2024-05-18 18:57:50+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" <not executed on terminal>]
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition7.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition8.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition9.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition10.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition11.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+rm: cannot remove '/tmp/transition*.jpg': No such file or directory
+
+Script done on 2024-05-18 18:57:51+08:00 [COMMAND_EXIT_CODE="0"]

@@ -6,7 +6,9 @@
 #trap "kill $$" SIGINT
 
 # sys vars
-lockpath="/tmp/lock"
+tmplockpath="/var/lock"
+lockname="idle"
+lockpath="$tmplockpath/$lockname"
 lockfile="idle.lck"
 pidfile="idle.pid"
 
@@ -16,9 +18,18 @@ pmusic=true # stop/start music from playing - command or un-comment
 IDLETIME=1800000
 IDLEBACKTIME=100
 
+if [ ! -d $lockpath ]; then
+    /sbin/echo "Lock path does not exist, creating it"
+    sudo /sbin/mkdir -vp $lockpath || /sbin/echo "Failed to create lock path at $lockpath"
+fi
+
 function idle() {
+    if [[ -f $lockpath/$disablelockfile ]]; then
+        /sbin/echo "idle: Idle is disabled"
+    fi
     printf "User is idle(afk) in %s\n" "$(date)"
-    sudo /sbin/touch $lockpath/$lockfile
+    /sbin/echo "Creating lock file"
+    sudo /sbin/touch $lockpath/$lockfile || /sbin/echo "Failed to create lock file at $lockpath/$lockfile"
     #if [ $mutev ]; then
     #    soundlevel=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
     #    amixer set Master 0%
@@ -38,16 +49,19 @@ function idle() {
         NekoMC --pause &
     fi
     # re-cache neofetch
-    script -c "$HOME/scripts/neofetchCache.sh" "$HOME"/scripts/logs/neofetchCache.log -a --force
+    # script -c "$HOME/scripts/neofetchCache.sh" "$HOME"/scripts/logs/neofetchCache.log -a --force
     # clean clipboard history
-    script -c "$HOME/scripts/clearcliphis.sh" "$HOME"/scripts/logs/clearcliphis.log -a --force
+    # script -c "$HOME/scripts/clearcliphis.sh" "$HOME"/scripts/logs/clearcliphis.log -a --force
     #/sbin/killall picom; bspcomp & # paused in freezeapp and unfreezeapp
     # Disable mouse just in case accidental awake for high DPI rate mouse
     xinput --disable 12
-    freezeapp &
+    # freezeapp &
 }
 
 function stopidle() {
+    if [[ -f $lockpath/$disablelockfile ]]; then
+        /sbin/echo "stopidle: Idle is disabled"
+    fi
     printf "User is back from idle(afk) in %s\n", "$(date)"
     #if [ $mutev ] && [ $soundlevel ]; then
     #    amixer set Master $soundlevel
@@ -56,28 +70,29 @@ function stopidle() {
     #    notify-send "ERROR: \$soundlevel is not set, unknown sound level..."
     #fi
     # Re-enable mouse
-    xinput --enable 12
+    xinput --enable 12 &
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-        amixer set Master unmute
+        amixer set Master unmute &
     elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
-        notify-send -u critical "ERROR: Volume(sound) is not muted"
+        notify-send -u critical "ERROR: Volume(sound) is not muted" &
     elif [ $mutev ] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-        notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)"
+        notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)" &
     fi
-    /sbin/killall update.sh yay
-    unfreezeapp &
+    /sbin/killall update.sh yay &
+    # unfreezeapp &
     if [ $pmusic ] && [ "$m" ]; then
         NekoMC --play &
         unset m
     fi
-    sudo /sbin/rm -f $lockpath/$lockfile
+    /sbin/echo "Removing lock file"
+    sudo /sbin/rm -f $lockpath/$lockfile || /sbin/echo "Failed removing lock file at $lockpath/$lockfile"
 }
 
 if [ "$1" ]; then
     if [[ "$1" == '-d' || "$1" == '--daemon' ]]; then
         if ! pgrep "$0"; then
             /sbin/printf "PID: "
-            /sbin/echo $$ | sudo /sbin/tee $lockpath/$pidfile
+            /sbin/echo $$ | sudo /sbin/tee $lockpath/$pidfile || echo "PID Grab failed"
         else
             /sbin/printf "An instance of this program is dectected, please close that instance in order to launch another\n"
         fi
@@ -101,7 +116,13 @@ if [ "$1" ]; then
         exit 0
     elif [[ "$1" == '--continue' || "$1" == '--stopidle' ]]; then
         #/sbin/kill -s 4 $(/sbin/cat $lockpath/$pidfile)
-        stopidle
+        sudo /sbin/touch $lockpath/$lockfile
+        exit 0
+    elif [[ "$1" == '--disable' || "$1" == '-dis' ]]; then
+        sudo /sbin/touch $lockpath/$disablelockfile
+        exit 0
+    elif [[ "$1" == '--enable' || "$1" == '-en' ]]; then
+        sudo /sbin/rm -f $lockpath/$disablelockfile
         exit 0
     fi
 fi
