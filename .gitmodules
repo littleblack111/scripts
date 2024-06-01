@@ -1,0 +1,3 @@
+[submodule "dunst-history"]
+	path = dunst-history
+	url = https://github.com/littleblack111/dunst-history
