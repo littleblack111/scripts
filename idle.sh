@@ -55,7 +55,7 @@ function idle() {
     #/sbin/killall picom; bspcomp & # paused in freezeapp and unfreezeapp
     # Disable mouse just in case accidental awake for high DPI rate mouse
     xinput --disable 12
-    # freezeapp &
+    freezeapp &
 }
 
 function stopidle() {
@@ -79,7 +79,7 @@ function stopidle() {
         notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)" &
     fi
     /sbin/killall update.sh yay &
-    # unfreezeapp &
+    unfreezeapp &
     if [ $pmusic ] && [ "$m" ]; then
         NekoMC --play &
         unset m
