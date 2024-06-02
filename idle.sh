@@ -25,10 +25,9 @@ fi
 
 function cleanup() {
     /sbin/echo "Cleaning up..."
-    sudo /sbin/rm -f $lockpath/$lockfile || /sbin/echo "Failed removing lock file at $lockpath/$lockfile"
-    sudo /sbin/rm -f $lockpath/$pidfile || /sbin/echo "Failed removing PID file at $lockpath/$pidfile"
-    sudo /sbin/rm -f $lockpath/$disablelockfile || /sbin/echo "Failed removing disable lock file at $lockpath/$disablelockfile"
+    sudo /sbin/rm -rf $lockpath || /sbin/echo "Failed removing locks at $lockpath"
     /sbin/echo "Exiting..."
+    exit 0
 }
 
 trap cleanup SIGINT SIGTERM
@@ -111,8 +110,9 @@ if [ "$1" ]; then
                 if [[ "$(xprintidle)" -gt $IDLETIME && ! -f $lockpath/$lockfile && $1 ]]; then  # Changed from 600000 (10 minutes) to 3600000 (1 hour)
                     idle
                     continue
-                else
+                elif [[ ! -f $lockpath/$lockfile && $1 ]]; then
                     sleep 10
+                    continue
                 fi
                 if [[ "$(xprintidle)" -le $IDLEBACKTIME && -f $lockpath/$lockfile ]]; then
                     stopidle
