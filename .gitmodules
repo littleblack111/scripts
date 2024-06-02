@@ -1,3 +1,6 @@
 [submodule "dunst-history"]
 	path = dunst-history
 	url = https://github.com/littleblack111/dunst-history
+[submodule "soft-shutdown"]
+	path = soft-shutdown
+	url = https://github.com/littleblack111/soft-shutdown
