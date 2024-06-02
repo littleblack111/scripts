@@ -23,6 +23,16 @@ if [ ! -d $lockpath ]; then
     sudo /sbin/mkdir -vp $lockpath || /sbin/echo "Failed to create lock path at $lockpath"
 fi
 
+function cleanup() {
+    /sbin/echo "Cleaning up..."
+    sudo /sbin/rm -f $lockpath/$lockfile || /sbin/echo "Failed removing lock file at $lockpath/$lockfile"
+    sudo /sbin/rm -f $lockpath/$pidfile || /sbin/echo "Failed removing PID file at $lockpath/$pidfile"
+    sudo /sbin/rm -f $lockpath/$disablelockfile || /sbin/echo "Failed removing disable lock file at $lockpath/$disablelockfile"
+    /sbin/echo "Exiting..."
+}
+
+trap cleanup SIGINT SIGTERM
+
 function idle() {
     if [[ -f $lockpath/$disablelockfile ]]; then
         /sbin/echo "idle: Idle is disabled"
@@ -105,7 +115,6 @@ if [ "$1" ]; then
                     stopidle
                     continue
                 else
-                    sleep 1
                     continue
                 fi
             fi
