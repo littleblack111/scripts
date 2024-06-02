@@ -111,7 +111,10 @@ if [ "$1" ]; then
                 if [[ "$(xprintidle)" -gt $IDLETIME && ! -f $lockpath/$lockfile && $1 ]]; then  # Changed from 600000 (10 minutes) to 3600000 (1 hour)
                     idle
                     continue
-                elif [[ "$(xprintidle)" -le $IDLEBACKTIME && -f $lockpath/$lockfile ]]; then
+                else
+                    sleep 10
+                fi
+                if [[ "$(xprintidle)" -le $IDLEBACKTIME && -f $lockpath/$lockfile ]]; then
                     stopidle
                     continue
                 else
