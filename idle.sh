@@ -36,7 +36,7 @@ function idle() {
     if [[ -f $lockpath/$disablelockfile ]]; then
         /sbin/echo "idle: Idle is disabled"
     fi
-    printf "User is idle(afk) in %s\n" "$(date)"
+    /sbin/echo "User is idle(afk) in $(date)"
     /sbin/echo "Creating lock file"
     sudo /sbin/touch $lockpath/$lockfile || /sbin/echo "Failed to create lock file at $lockpath/$lockfile"
     #if [ $mutev ]; then
@@ -71,7 +71,7 @@ function stopidle() {
     if [[ -f $lockpath/$disablelockfile ]]; then
         /sbin/echo "stopidle: Idle is disabled"
     fi
-    printf "User is back from idle(afk) in %s\n", "$(date)"
+    /sbin/echo "User is back from idle(afk) in $(date)"
     #if [ $mutev ] && [ $soundlevel ]; then
     #    amixer set Master $soundlevel
     #    unset $soundlevel
@@ -100,10 +100,10 @@ function stopidle() {
 if [ "$1" ]; then
     if [[ "$1" == '-d' || "$1" == '--daemon' ]]; then
         if ! pgrep "$0"; then
-            /sbin/printf "PID: "
+            /sbin/echo -n "PID: "
             /sbin/echo $$ | sudo /sbin/tee $lockpath/$pidfile || echo "PID Grab failed"
         else
-            /sbin/printf "An instance of this program is dectected, please close that instance in order to launch another\n"
+            /sbin/echo "An instance of this program is dectected, please close that instance in order to launch another"
         fi
         while true; do
             if [[ "$(systemctl is-system-running)" == "running" || "$(systemctl is-system-running)" == "degraded" ]]; then
@@ -139,5 +139,5 @@ if [ "$1" ]; then
     fi
 fi
 
-/sbin/printf "Un-recornized option: '$@', Please use options:\n\t-d|--daemon\tTo start daemon(auto idle actions)\n\t--idle|--pause\tTo call \`idle\` function\n\t--continue|--stopidle\tTo call \`stopidle\` function\n"
+/sbin/echo -e "Un-recornized option: '$@', Please use options:\n\t-d|--daemon\tTo start daemon(auto idle actions)\n\t--idle|--pause\tTo call \`idle\` function\n\t--continue|--stopidle\tTo call \`stopidle\` function"
 exit 1
