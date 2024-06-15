@@ -1,12 +1,12 @@
 #!/bin/bash
 # Animated wallpaper changer
-feh --bg-fill ~/.cache/wallpaper/old.jpg
+feh --bg-fill $XDG_CACHE_HOME/wallpaper/old.jpg
 
 DISPLAY=:0
-WALLPAPERS="$HOME/Pictures/wallpapers/"
+WALLPAPERS="$XDG_PICTURES_DIR/wallpapers/"
 wallpappath=$(find "$WALLPAPERS" | shuf -n 1)
-cp "$wallpappath" $HOME/.cache/wallpaper/old.jpg
-echo "$wallpappath" > "$HOME/.cache/current.bg"
+cp "$wallpappath" $XDG_CACHE_HOME/wallpaper/old.jpg
+echo "$wallpappath" > "$XDG_CACHE_HOME/current.bg"
 
 DELAY=0.005
 QUALITY=0.000001
