@@ -3,6 +3,7 @@
 feh --bg-fill $XDG_CACHE_HOME/wallpaper/old.jpg
 
 DISPLAY=:0
+XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
 WALLPAPERS="$XDG_PICTURES_DIR/wallpapers/"
 wallpappath=$(find "$WALLPAPERS" | shuf -n 1)
 cp "$wallpappath" $XDG_CACHE_HOME/wallpaper/old.jpg

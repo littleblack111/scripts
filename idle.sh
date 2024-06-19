@@ -63,7 +63,7 @@ function idle() {
     # script -c "$HOME/scripts/clearcliphis.sh" "$HOME"/scripts/logs/clearcliphis.log -a --force
     #/sbin/killall picom; bspcomp & # paused in freezeapp and unfreezeapp
     # Disable mouse just in case accidental awake for high DPI rate mouse
-    xinput --disable 12
+    # xinput --disable 12
     freezeapp &
 }
 
