@@ -3919,3 +3919,259 @@ feh: No loadable images specified.
 See 'feh --help' or 'man feh' for detailed usage information
 
 脚本完成于 2024-06-18 21:38:24+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2024-06-22 15:07:46+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" TERM="alacritty" TTY="/dev/pts/0" COLUMNS="235" LINES="55"]
+feh WARNING: /home/system/.cache/wallpaper/old.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+cp: 无法创建普通文件 '/home/system/.cache/wallpaper/old.jpg': 没有那个文件或目录
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition7.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition8.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition9.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+
+脚本完成于 2024-06-22 15:07:47+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2024-06-22 23:14:07+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" <not executed on terminal>]
+feh WARNING: /wallpaper/old.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+cp: 无法创建普通文件 '/wallpaper/old.jpg': 没有那个文件或目录
+/home/system/scripts/wallpapertrans.sh: 行 10: /current.bg: 权限不够
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+
+脚本完成于 2024-06-22 23:14:08+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2024-06-23 20:18:01+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" <not executed on terminal>]
+feh WARNING: /wallpaper/old.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+cp: 无法创建普通文件 '/wallpaper/old.jpg': 没有那个文件或目录
+/home/system/scripts/wallpapertrans.sh: 行 10: /current.bg: 权限不够
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+WARNING: The convert command is deprecated in IMv7, use "magick"
+
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition7.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition8.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition9.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition10.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition11.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+rm: 无法删除 '/tmp/transition*.jpg': 没有那个文件或目录
+
+脚本完成于 2024-06-23 20:18:01+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2024-06-25 02:19:23+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" <not executed on terminal>]
+feh WARNING: /wallpaper/old.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+cp: 无法创建普通文件 '/wallpaper/old.jpg': 没有那个文件或目录
+/home/system/scripts/wallpapertrans.sh: 行 10: /current.bg: 权限不够
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+
+脚本完成于 2024-06-25 02:19:24+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2024-06-25 02:49:24+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" <not executed on terminal>]
+feh WARNING: /wallpaper/old.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+cp: 无法创建普通文件 '/wallpaper/old.jpg': 没有那个文件或目录
+/home/system/scripts/wallpapertrans.sh: 行 10: /current.bg: 权限不够
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition7.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition8.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition9.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition10.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition11.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+rm: 无法删除 '/tmp/transition*.jpg': 没有那个文件或目录
+
+脚本完成于 2024-06-25 02:49:24+08:00 [COMMAND_EXIT_CODE="0"]
+脚本启动于 2024-06-25 07:47:28+08:00 [COMMAND="/home/system/scripts/wallpapertrans.sh" <not executed on terminal>]
+feh WARNING: /wallpaper/old.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+cp: 无法创建普通文件 '/wallpaper/old.jpg': 没有那个文件或目录
+/home/system/scripts/wallpapertrans.sh: 行 10: /current.bg: 权限不够
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+feh WARNING: /tmp/transition1.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+feh WARNING: /tmp/transition2.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition3.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition4.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition5.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+feh WARNING: /tmp/transition6.jpg does not exist - skipping
+feh: No loadable images specified.
+See 'feh --help' or 'man feh' for detailed usage information
+
+脚本完成于 2024-06-25 07:47:29+08:00 [COMMAND_EXIT_CODE="0"]
