@@ -53,11 +53,13 @@ function idle() {
         notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)"
     fi
     script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
-    if [ $pmusic ] && [[ $(NekoMC --status) == "Playing" ]]; then
-        m=true
+    if [ $pmusic ]; then
+        if [[ $(playerctl status -p spotify) == "Playing" ]]; then
+            m=true
+        fi
     fi
-    if [ $pmusic ] && [ "$m" ]; then
-        NekoMC --pause &
+    if [ $pmusic ]; then
+        playerctl --all-players pause
     fi
     # re-cache neofetch
     # script -c "$HOME/scripts/neofetchCache.sh" "$HOME"/scripts/logs/neofetchCache.log -a --force
@@ -92,7 +94,7 @@ function stopidle() {
     /sbin/killall update.sh yay &
     unfreezeapp &
     if [ $pmusic ] && [ "$m" ]; then
-        NekoMC --play &
+        playerctl play -p spotify
         unset m
     fi
     /sbin/echo "Removing lock file"
