@@ -8,23 +8,21 @@ VOL=0
 STATE=1
 
 # usr-def vars
-OTHERPLAYER_MUSIC_PERCENTAGE=35
-NORMAL_MUSIC_PLAYER_PERCENTAGE=50
-
-function getMusicId() {
-    pulsemixer --list-sink | grep 'Name: spotify' | awk '{print $4}' | sed 's/,$//'
-}
-
-function getVideoId() {
-    pulsemixer --list-sink | grep 'Name: Chromium' | awk '{print $4}' | sed 's/,$//'
-}
+OTHERPLAYER_MUSIC_PERCENTAGE=45
+NORMAL_MUSIC_PLAYER_PERCENTAGE=60
 
 function lower_music() {
-    pulsemixer --id "$(getMusicId)" --set-volume $OTHERPLAYER_MUSIC_PERCENTAGE
+    for ((i=$NORMAL_MUSIC_PLAYER_PERCENTAGE; i>=$OTHERPLAYER_MUSIC_PERCENTAGE; i--)); do
+        playerctl -p spotify volume 0.$i
+        sleep 0.01
+    done
 }
 
 function normal_music() {
-    pulsemixer --id "$(getMusicId)" --set-volume $NORMAL_MUSIC_PLAYER_PERCENTAGE
+    for ((i=$OTHERPLAYER_MUSIC_PERCENTAGE; i<=$NORMAL_MUSIC_PLAYER_PERCENTAGE; i++)); do
+        playerctl -p spotify volume 0.$i
+        sleep 0.01
+    done
 }
 
 if [ "$1" ]; then
@@ -34,13 +32,13 @@ if [ "$1" ]; then
     elif [[ "$1" == '--daemon' || "$1" == '-d' ]]; then
         while true; do
             if [[ "$(systemctl is-system-running)" == "running" || "$(systemctl is-system-running)" == "degraded" ]]; then
-                if [ $(getVideoId) ]; then
+                if [[ $(playerctl status -p chromium) == "Playing" ]]; then
                     if [ $STATE -eq 0 ]; then
                         STATE=1
                         echo VideoDetected
                         lower_music
                     fi
-                elif [ $(getMusicId) ] && [ $STATE -eq 1 ]; then
+                elif [[ $(playerctl status -p spotify) == "Playing" ]] && [ $STATE -eq 1 ]; then
                     STATE=0
                     echo VideoGone
                     normal_music
