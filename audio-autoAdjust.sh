@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+renice -n 19 $$
+
 # sys-def vars
 # DO NOT TOUCH
 VOL=0
@@ -45,7 +47,7 @@ if [ "$1" ]; then
                 else
                     sleep 5
                 fi
-                sleep 3
+                sleep 1
             fi
         done
         exit 0

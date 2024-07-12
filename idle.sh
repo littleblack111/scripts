@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+renice -n 19 $$
+
 # arguments with signal trap
 #trap idle SIGQUIT
 #trap stopidle SIGILL
