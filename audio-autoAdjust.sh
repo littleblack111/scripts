@@ -38,10 +38,12 @@ if [ "$1" ]; then
                         echo VideoDetected
                         lower_music
                     fi
-                elif [[ $(playerctl status -p spotify) == "Playing" ]] && [ $STATE -eq 1 ]; then
-                    STATE=0
-                    echo VideoGone
-                    normal_music
+                elif [[ $(playerctl status -p spotify) == "Playing" ]]; then
+                    if [ $STATE -eq 1 ]; then
+                        STATE=0
+                        echo VideoGone
+                        normal_music
+                    fi
                 else
                     sleep 5
                 fi
