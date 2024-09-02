@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Define the function to get the list of running GUI applications
 running_gui_apps() {
     applications=()
 
@@ -23,21 +22,18 @@ running_gui_apps() {
 
     done
 
-    # sort result list and remove duplicates  
     readarray -t applications < <(printf '%s\0' "${applications[@]}" | sort -z | xargs -0n1 | uniq)
 
     printf '%s\n' "${applications[@]}" 
 }
 
-# Call the function to get the list of running GUI applications
 apps=$(running_gui_apps)
 
-# Replace newline characters with spaces using tr
 apps=$(echo "$apps" | tr '\n' ' ')
 
-# Use killall with the -STOP option and the modified apps variable to stop the applications
 # killall -STOP $apps
-killall -TERM picom #killall -STOP picom
-killall -STOP polybar
-killall -STOP runtransani.sh
+# killall -TERM picom #killall -STOP picom
+killall -STOP waybar
+# killall -STOP polybar
+# killall -STOP runtransani.sh
 #killall -STOP Xorg

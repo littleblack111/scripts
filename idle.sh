@@ -8,9 +8,9 @@ renice -n 19 $$
 #trap "kill $$" SIGINT
 
 # sys vars
-tmplockpath="/var/lock"
+lockpath="/var/lock"
 lockname="idle"
-lockpath="$tmplockpath/$lockname"
+lockpath="$lockpath/$lockname"
 lockfile="idle.lck"
 pidfile="idle.pid"
 
