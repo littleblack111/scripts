@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function Mic {
+    # inotifywait -e modify /proc/asound/card0/pcm0c/sub0/status # doesnt work :(
+    rawMicStatus=$(cat /proc/asound/card0/pcm0c/sub0/status)
+    if [[ $rawMicStatus == *"closed"* ]]; then
+        # echo "Mic is closed"
+        unset micpid
+        return 1
+    else
+        micpid=$(printf "%s" "$rawMicStatus" | grep 'owner_pid' | awk -F ': ' '{print $2}')
+    fi
+}
+
+function Camera {
+    campid=$(fuser "/dev/video0" 2>/dev/null) || unset campid
+    # icampid=$(fuser "/dev/video2" 2>/dev/null) # IR camera
+    if [ $campid ]; then
+        unset campid
+    else
+        return 1
+    fi
+}
+
+function subscribe {
+    while true; do
+        Mic
+        Camera
+        if [ ! $micpid ] && [ ! $campid ]; then
+            echo '{"text": " ", "tooltip": " ", "class": "no"}'
+        elif [ $micpid ] && [ ! $campid ]; then
+            echo '{"text": "", "tooltip": "Mic: '$micpid'", "class": "mic"}'
+        elif [ ! $micpid ] && [ $campid ]; then
+            echo '{"text": "", "tooltip": "Camera: '$campid'", "class": "cam"}'
+        else
+            echo '{"text": " ", "tooltip": "Mic: '$micpid' Camera: '$campid'", "class": "miccam}'
+        fi
+        sleep 1
+    done
+}
+
+if [ "$1" ]; then
+    $@
+fi

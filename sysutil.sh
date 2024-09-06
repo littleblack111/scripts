@@ -11,7 +11,7 @@ function prepsound() {
     sDIR=/usr/share/sounds/freedesktop/stereo
 }
 
-function playsound() {
+function playSound() {
     if [ ! $sDIR ]; then
         echo Warning: Sound directory not set, setting to default
         prepsound
@@ -49,6 +49,10 @@ function setSound() {
 
 function screenshot() {
     $HOME/scripts/hyprshot $@
+}
+
+function volume() {
+    $HOME/scripts/hyprvol $@
 }
 
 if [ "$1" ]; then

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cworkspace=$(hyprctl activeworkspace -j | jq '.id')
+
+echo $cworkspace
+echo $1
+if [ $cworkspace -eq $1 ]; then
+  exit 1
+elif [ $cworkspace -gt $1 ]; then
+  for ((i=$cworkspace; i>=$1+1; i--)); do hyprctl dispatch workspace -1; done
+elif [ $cworkspace -lt $1 ]; then
+  for ((i=$cworkspace; i<=$1-1; i++)); do hyprctl dispatch workspace +1; done
+fi
+

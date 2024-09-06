@@ -1,0 +1,30 @@
+#!/bin/bash
+
+stack_file="/tmp/hidden_pid_stack"
+
+
+function hide_window(){
+	pid=$(hyprctl activewindow -j | jq '.pid')
+	hyprctl dispatch movetoworkspacesilent 88,pid:$pid
+	echo $pid >> $stack_file
+}
+
+function show_window(){
+	current_workspace=$(hyprctl activeworkspace -j | jq '.id')	
+    for i in $(cat $stack_file)
+    do
+        hyprctl dispatch movetoworkspacesilent $current_workspace,pid:$i
+    done
+    rm $stack_file
+}
+
+
+if [ ! -z $1 ]
+then
+	if [ "$1" == "h" ]
+	then
+		hide_window
+	else
+		show_window
+	fi
+fi

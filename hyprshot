@@ -16,9 +16,7 @@ notify_view () {
     pngcheck ${dir}/"$file" > /dev/null
     if [[ $? -eq 0 ]]; then
         #${notify_cmd_shot} "Copied to clipboard."
-        if $($HOME/scripts/sysutil.sh getSound screenshot); then
-            $HOME/scripts/sysutil.sh playsound screen-capture.oga &
-        fi
+        if $($HOME/scripts/sysutil.sh getSound screenshot); then $HOME/scripts/sysutil.sh playSound screen-capture.oga & fi
         viewnior ${dir}/"$file"
     else
         # the notifcation too annoying
