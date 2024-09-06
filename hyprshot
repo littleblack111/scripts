@@ -10,30 +10,37 @@ if [[ ! -d "$dir" ]]; then
 	mkdir -p "$dir"
 fi
 
+trap notify EXIT
+
+notify () {
+    notify_cmd_shot='notify-send -u low -h string:x-dunst-stack-tag:obscreenshot -i /usr/share/archcraft/icons/dunst/picture.png'
+    pngcheck ${dir}/"$file" > /dev/null
+	if [[ -e "$dir/$file" ]]; then
+		${notify_cmd_shot} "Screenshot Saved."
+	else
+		${notify_cmd_shot} "Screenshot Canceled."
+	fi
+}
+
 # notify and view screenshot
 notify_view () {
-    notify_cmd_shot='dunstify -u low -h string:x-dunst-stack-tag:obscreenshot -i /usr/share/archcraft/icons/dunst/picture.png'
-    pngcheck ${dir}/"$file" > /dev/null
     if [[ $? -eq 0 ]]; then
         #${notify_cmd_shot} "Copied to clipboard."
         if $($HOME/scripts/sysutil.sh getSound screenshot); then $HOME/scripts/sysutil.sh playSound screen-capture.oga & fi
-        viewnior ${dir}/"$file"
+        # viewnior ${dir}/"$file"
+        blobdrop -f gui ${dir}/"$file" -b -t &
+        ( sleep 10 && kill $! ) &
     else
         # the notifcation too annoying
         #${notify_cmd_shot} "Screenshot Canceled."
         rm "${dir}/$file"
         exit 0
     fi
-	if [[ -e "$dir/$file" ]]; then
-		${notify_cmd_shot} "Screenshot Saved."
-	else
-		${notify_cmd_shot} "Screenshot Deleted."
-	fi
 }
 
 # copy screenshot to clipboard
 copy_shot () {
-	tee "$file" | wl-copy -t image/png
+	tee "${dir}/$file" | wl-copy -t image/png
 }
 
 # countdown
@@ -46,24 +53,25 @@ countdown () {
 
 # take shots
 shotnow () {
-	cd ${dir} && grim - | copy_shot
+    grim - | copy_shot
 	notify_view
 }
 
 shot5 () {
 	countdown '5'
-	sleep 1 && cd ${dir} && grim - | copy_shot
+	sleep 1 && grim - | copy_shot
 	notify_view
 }
 
 shot10 () {
 	countdown '10'
-	sleep 1 && cd ${dir} && grim - | copy_shot
+	sleep 1 grim - | copy_shot
 	notify_view
 }
 
 shotarea () {
-    cd ${dir} && grim -g "$(slurp -d)" - | copy_shot
+    g=$(slurp -d) || exit 1
+    grim -g "$g" - | copy_shot
 	notify_view
 }
 
