@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# Icons
+iDIR='/usr/share/archcraft/icons/dunst'
+
+# Notify 
+notify_bl() {
+    backlight="$(brillo -G)"
+    current="${backlight%%%}"
+    if [[ "$current" -ge "0" && "$current" -le "20" ]]; then
+        icon="$iDIR"/brightness-20.png
+    elif [[ "$current" -ge "20" && "$current" -le "40" ]]; then
+        icon="$iDIR"/brightness-40.png
+    elif [[ "$current" -ge "40" && "$current" -le "60" ]]; then
+        icon="$iDIR"/brightness-60.png
+    elif [[ "$current" -ge "60" && "$current" -le "80" ]]; then
+        icon="$iDIR"/brightness-80.png
+    elif [[ "$current" -ge "80" && "$current" -le "100" ]]; then
+        icon="$iDIR"/brightness-100.png
+    fi
+    get_icon && dunstify -u low -h string:x-dunst-stack-tag:obbacklight -i "$icon" "Brightness : $(brillo -G)"
+}
+
+# Increase brightness
+inc_backlight() {
+    brillo -A 10 # && notify_bl
+}
+
+# Decrease brightness
+dec_backlight() {
+    brillo -U 10 # && notify_bl
+}
+
+# Execute accordingly
+if [[ "$1" == "--get" ]]; then
+    brillo -G
+elif [[ "$1" == "--inc" ]]; then
+    inc_backlight
+elif [[ "$1" == "--dec" ]]; then
+    dec_backlight
+else
+    brillo -G
+fi

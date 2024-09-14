@@ -2,7 +2,7 @@
 
 # Icons
 iDIR='/usr/share/archcraft/icons/dunst'
-notify_cmd='notify-send -u low'
+# notify_cmd='notify-send -u low' # replace via syshud
 
 # Get Volume
 get_volume() {
@@ -22,7 +22,7 @@ notify_user() {
 		icon="$iDIR/volume-high.png"
 	fi
     if $($HOME/scripts/sysutil.sh getSound screenshot); then $HOME/scripts/sysutil.sh playSound audio-volume-change.oga & fi
-	${notify_cmd} -i "$icon" "Volume : $current%"
+	# ${notify_cmd} -i "$icon" "Volume : $current%"
 }
 
 # Increase Volume
@@ -40,19 +40,19 @@ dec_volume() {
 # Toggle Mute
 toggle_mute() {
 	if [[ `pulsemixer --get-mute` == 0 ]]; then
-		wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle & ${notify_cmd} -i "$iDIR/volume-mute.png" "Mute"
+		wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle # & ${notify_cmd} -i "$iDIR/volume-mute.png" "Mute"
 	else
-        current="$(get_volume)"
-        if [[ "$current" -eq "0" ]]; then
-            icon="$iDIR/volume-mute.png"
-        elif [[ ("$current" -ge "0") && ("$current" -le "40") ]]; then
-            icon="$iDIR/volume-low.png"
-        elif [[ ("$current" -ge "40") && ("$current" -le "60") ]]; then
-            icon="$iDIR/volume-mid.png"
-        elif [[ ("$current" -ge "60") ]]; then
-            icon="$iDIR/volume-high.png"
-        fi
-		pulsemixer --toggle-mute & ${notify_cmd} -i "$icon" "Unmute"
+        # current="$(get_volume)"
+        # if [[ "$current" -eq "0" ]]; then
+        #     icon="$iDIR/volume-mute.png"
+        # elif [[ ("$current" -ge "0") && ("$current" -le "40") ]]; then
+        #     icon="$iDIR/volume-low.png"
+        # elif [[ ("$current" -ge "40") && ("$current" -le "60") ]]; then
+        #     icon="$iDIR/volume-mid.png"
+        # elif [[ ("$current" -ge "60") ]]; then
+        #     icon="$iDIR/volume-high.png"
+        # fi
+		pulsemixer --toggle-mute # & ${notify_cmd} -i "$icon" "Unmute"
 	fi
 }
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while read pipe; do
+    tput rc; tput el
+    printf "\r$pipe" | tr "\n" "\r"
+done
+echo

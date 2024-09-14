@@ -2,6 +2,8 @@
 
 renice -n 19 $$
 
+XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+
 # arguments with signal trap
 #trap idle SIGQUIT
 #trap stopidle SIGILL
@@ -29,12 +31,14 @@ function idle() {
 
     if [ $pmusic ]; then
         if [[ $(playerctl status -p spotify) == "Playing" ]]; then
-            m=true
+            echo true > $XDG_CACHE_HOME/playing-music
         fi
     fi
     if [ $pmusic ]; then
         playerctl --all-players pause
     fi
+    brillio -O
+    brillio -S 0
 }
 
 function stopidle() {
@@ -55,10 +59,12 @@ function stopidle() {
         notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)" &
     fi
     /sbin/killall update.sh yay &
-    if [ $pmusic ] && [ "$m" ]; then
+    if [ $pmusic ] && [ -f $XDG_CACHE_HOME/playing-music ]; then
         playerctl play -p spotify
         unset m
     fi
+    rm -f $XDG_CACHE_HOME/playing-music
+    brillio -I
 }
 
 if [ "$1" ]; then

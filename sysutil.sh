@@ -55,6 +55,10 @@ function volume() {
     $HOME/scripts/hyprvol $@
 }
 
+function brightness() {
+    $HOME/scripts/hyprbri $@
+}
+
 if [ "$1" ]; then
     $@
 fi
