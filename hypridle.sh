@@ -37,6 +37,7 @@ function idle() {
     if [ $pmusic ]; then
         playerctl --all-players pause
     fi
+    killall -STOP hyprpaper.sh
     brillio -O
     brillio -S 0
 }
@@ -63,6 +64,7 @@ function stopidle() {
         playerctl play -p spotify
         unset m
     fi
+    killall -CONT hyprpaper.sh || $HOME/scripts/hyprpaper.sh &
     rm -f $XDG_CACHE_HOME/playing-music
     brillio -I
 }
