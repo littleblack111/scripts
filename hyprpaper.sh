@@ -14,7 +14,7 @@ NC='\033[0m'
 DELAY=1800
 
 while true; do
-    if ! hyprctl hyprpaper; then
+    if hyprctl hyprpaper | grep invalid; then
         echo -e "${RED}hyprpaper not running, launching it... - BEGIN${NC}"
         hyprpaper &
     fi
@@ -31,10 +31,21 @@ while true; do
     # hyprctl hyprpaper unload $(hyprctl hyprpaper listloaded)
 
     # hyprctl hyprpaper preload $wallpappath
-    while ! hyprctl hyprpaper wallpaper ", $(cat $XDG_CACHE_HOME/current.bg)"; do hyprctl hyprpaper preload $(cat $XDG_CACHE_HOME/current.bg); done
-    # update hyprlock
-    killall -SIGUSR2 hyprlock
-    hyprctl hyprpaper unload $(cat $XDG_CACHE_HOME/current.bg) || hyprctl hyprpaper unload all
+    # while ! hyprctl hyprpaper wallpaper ", $(cat $XDG_CACHE_HOME/current.bg)"; do hyprpaper & hyprctl hyprpaper preload $(cat $XDG_CACHE_HOME/current.bg); done
+    tmpreturn=$(hyprctl hyprpaper wallpaper ", $(cat $XDG_CACHE_HOME/current.bg)")
+    while ! hyprctl hyprpaper listactive | grep $(cat $XDG_CACHE_HOME/current.bg); do
+        if [[ $tmpreturn == *"preload"* ]]; then
+            echo -e "${RED}preload failed, retrying...${NC}"
+            hyprctl hyprpaper preload $(cat $XDG_CACHE_HOME/current.bg)
+            tmpreturn=$(hyprctl hyprpaper wallpaper ", $(cat $XDG_CACHE_HOME/current.bg)")
+        elif [[ $tmpreturn != "ok" ]]; then
+            echo -e "${RED}wallpaper failed, re(try) launching hyprpaper and retrying...${NC}"
+            echo -e "${RED}failed with: $tmpreturn${NC}"
+            hyprpaper &
+            tmpreturn=$(hyprctl hyprpaper wallpaper ", $(cat $XDG_CACHE_HOME/current.bg)")
+        fi
+    done
+    hyprctl hyprpaper unload $(cat $XDG_CACHE_HOME/current.bg) | grep "ok" ||  hyprctl hyprpaper unload all
     hyprctl hyprpaper preload $wallpappath
     current_bg=$(cat $XDG_CACHE_HOME/current.bg)
     if [[ $current_bg == *.jpg ]]; then
@@ -43,6 +54,8 @@ while true; do
         cp $current_bg $XDG_CACHE_HOME/bg.png
     fi
     echo $wallpappath > $XDG_CACHE_HOME/current.bg
+    # update hyprlock
+    killall -SIGUSR2 hyprlock
 
     # hyprctl hyprpaper unload $(hyprctl hyprpaper listloaded) || hyprctl hyprpaper unload all
     # hyprctl hyprpaper preload $wallpappath
@@ -52,5 +65,6 @@ while true; do
         sleep $DELAY
     else
         echo -e "${RED}hyprpaper not running, skipping sleep - END${NC}"
+        hyprpaper &
     fi
 done
