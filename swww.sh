@@ -5,7 +5,7 @@ XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 WALLPAPERS="$XDG_PICTURES_DIR/wallpapers/"
 current_bg="$(cat $XDG_CACHE_HOME/current.bg)"
-swwwarg="--transition-type random --transition-step 240 --transition-angle 0 --transition-duration 0.85 --transition-fps 160 --transition-bezier 1,0.33,0.3,1"
+swwwarg="--transition-type random --transition-duration 0.85 --transition-fps 160 --transition-bezier 1,0.33,0.3,1"
 
 # colors
 RED='\033[0;31m'
@@ -25,9 +25,10 @@ while true; do
     fi
 
     # wallust run --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)
-    wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg) &
+    # wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg) & # using cache now
     swww img $(cat $XDG_CACHE_HOME/current.bg) $swwwarg
     wallust run --backend full --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)
+    (sleep 0.1; pgrep -f wallust && wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)) &
 
     swaync-client --reload-css
 
@@ -40,6 +41,8 @@ while true; do
     echo $wallpappath > $XDG_CACHE_HOME/current.bg
     # update hyprlock
     killall -SIGUSR2 hyprlock
+
+    nice -n 20 wallust run --backend full --skip-templates --skip-sequences $wallpappath
 
     if swww query; then
         sleep $DELAY
