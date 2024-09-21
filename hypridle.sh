@@ -38,7 +38,7 @@ function idle() {
         playerctl --all-players pause
     fi
     # killall -STOP hyprpaper.sh
-    killall -STOP swww.sh
+    # killall -STOP swww.sh
     brillio -O
     brillio -S 0
 }
@@ -66,7 +66,7 @@ function stopidle() {
         unset m
     fi
     # killall -CONT hyprpaper.sh || $HOME/scripts/hyprpaper.sh &
-    killall -CONT swww.sh || $HOME/scripts/swww.sh &
+    # killall -CONT swww.sh || $HOME/scripts/swww.sh &
     rm -f $XDG_CACHE_HOME/playing-music
     brillio -I
 }
