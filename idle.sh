@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 renice -n 19 $$
+ionice -c 3 -p $$
 
 # arguments with signal trap
 #trap idle SIGQUIT

@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 renice -n 19 $$
+ionice -c 3 -p $$
 
 # sys-def vars
 # DO NOT TOUCH

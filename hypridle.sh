@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 renice -n 19 $$
+ionice -c 3 -p $$
 
 XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 
