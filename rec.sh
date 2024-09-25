@@ -1,6 +1,7 @@
 #!/bin/sh
 
 XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+XDG_VIDEOS_DIR=${XDG_VIDEOS_DIR:-$HOME/Videos}
 
 function status() {
     pstatus=$(cat $XDG_CACHE_HOME/rec_paused)
