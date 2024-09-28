@@ -28,7 +28,8 @@ function idle() {
         notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)"
     fi
     # script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
-    script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
+    # script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
+    topgrade -y --no-retry
 
     if [ $pmusic ]; then
         if [[ $(playerctl status -p spotify) == "Playing" ]]; then
