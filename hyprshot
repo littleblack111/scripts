@@ -28,7 +28,8 @@ notify_view () {
         #${notify_cmd_shot} "Copied to clipboard."
         if $($HOME/scripts/sysutil.sh getSound screenshot); then $HOME/scripts/sysutil.sh playSound screen-capture.oga & fi
         # viewnior ${dir}/"$file"
-        blobdrop -f gui ${dir}/"$file" -b -t &
+        # blobdrop -f gui ${dir}/"$file" -b -t &
+        dragon --icon-only --thumb-size 512 --and-exit ${dir}/"$file" &
         ( sleep 10 && kill $! ) &
     else
         # the notifcation too annoying
