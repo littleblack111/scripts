@@ -9,23 +9,25 @@ function status() {
         echo ""
         exit
     fi
-    if pgrep -f gpu-screen-recorder >/dev/null; then
-        echo ""
-    else
-        echo ""
-    fi
+    n=0
+    while ! pgrep -f gpu-screen-recorder >/dev/null; do
+        if [ $n -eq 3 ]; then
+            echo ""
+            exit
+        fi
+        (( n+=1 ))
+    done
+    echo ""
 }
 
 function recorder() {
-    if pgrep -f gpu-screen-recorder>/dev/null; then
-        killall -SIGINT gpu-screen-recorder || exit 1
-        # reload module
-        pkill -RTMIN+3 waybar
-    else
-        gpu-screen-recorder -w screen -restore-portal-session yes -q ultra -oc yes -cr full -f 160 -o $XDG_VIDEOS_DIR/$(date +"%Y-%m-%d_%H:%M:%S").mp4
-        # reload module
-        pkill -RTMIN+3 waybar
-    fi
+    killall -SIGINT gpu-screen-recorder && while [ ! "$filename" ]; do filename=$(cat $XDG_CACHE_HOME/rec_filename); done && (dragon --icon-only --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!) && exit 1
+    filename=$(date +"%Y-%m-%d_%H:%M:%S").mp4
+    echo '' > $XDG_CACHE_HOME/rec_filename
+    echo 'false' > $XDG_CACHE_HOME/rec_paused
+    gpu-screen-recorder -w screen -restore-portal-session yes -q ultra -oc yes -cr full -f 160 -o $XDG_VIDEOS_DIR/"$filename" && echo "$filename" > $XDG_CACHE_HOME/rec_filename
+    # reload module
+    pkill -RTMIN+3 waybar
 }
 
 function pause() {
