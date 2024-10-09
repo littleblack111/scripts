@@ -17,7 +17,6 @@ function lower_music() {
         playerctl -p spotify volume 0.$i
         sleep 0.01
     done
-    playerctl -p spotify volume $OTHERPLAYER_MUSIC_PERCENTAGE
 }
 
 function normal_music() {
@@ -25,7 +24,6 @@ function normal_music() {
         playerctl -p spotify volume 0.$i
         sleep 0.01
     done
-    playerctl -p spotify volume $NORMAL_MUSIC_PLAYER_PERCENTAGE
 }
 
 if [ "$1" ]; then
