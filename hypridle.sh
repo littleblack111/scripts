@@ -33,16 +33,16 @@ function idle() {
 
     if [ $pmusic ]; then
         if [[ $(playerctl status -p spotify) == "Playing" ]]; then
-            echo true > $XDG_CACHE_HOME/playing-music
+            touch $XDG_CACHE_HOME/playing-music
         fi
-    fi
-    if [ $pmusic ]; then
         playerctl --all-players pause
     fi
     # killall -STOP hyprpaper.sh
     # killall -STOP swww.sh
-    brillio -O
-    brillio -S 0
+    brillo -O
+    brillo -S 0
+    # turn off debug overlay just in case we forget
+    hyprctl keyword debug:overlay false
 }
 
 function stopidle() {
@@ -54,7 +54,6 @@ function stopidle() {
     #    notify-send "ERROR: \$soundlevel is not set, unknown sound level..."
     #fi
     # Re-enable mouse
-    xinput --enable 12 &
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
         amixer set Master unmute &
     elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
@@ -65,12 +64,11 @@ function stopidle() {
     /sbin/killall update.sh yay &
     if [ $pmusic ] && [ -f $XDG_CACHE_HOME/playing-music ]; then
         playerctl play -p spotify
-        unset m
     fi
     # killall -CONT hyprpaper.sh || $HOME/scripts/hyprpaper.sh &
     # killall -CONT swww.sh || $HOME/scripts/swww.sh &
     rm -f $XDG_CACHE_HOME/playing-music
-    brillio -I
+    brillo -I
 }
 
 if [ "$1" ]; then
@@ -78,6 +76,7 @@ if [ "$1" ]; then
         idle
         exit 0
     elif [[ "$1" == '--continue' || "$1" == '--stopidle' ]]; then
+        stopidle
         exit 0
     fi
 fi
