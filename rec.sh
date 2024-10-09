@@ -21,7 +21,7 @@ function status() {
 }
 
 function recorder() {
-    killall -SIGINT gpu-screen-recorder && while [ ! "$filename" ]; do filename=$(cat $XDG_CACHE_HOME/rec_filename); done && (dragon --icon-only --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!) && exit 1
+    killall -SIGINT gpu-screen-recorder && filename=$(cat $XDG_CACHE_HOME/rec_filename) && (dragon --icon-only --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!) && exit 1
     filename=$(date +"%Y-%m-%d_%H:%M:%S").mp4
     echo '' > $XDG_CACHE_HOME/rec_filename
     echo 'false' > $XDG_CACHE_HOME/rec_paused
