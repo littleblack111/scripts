@@ -21,10 +21,20 @@ function status() {
 }
 
 function recorder() {
-    killall -SIGINT gpu-screen-recorder && filename=$(cat $XDG_CACHE_HOME/rec_filename) && (dragon --icon-only --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!) && exit 1
+    killall -SIGINT gpu-screen-recorder
+    if ! [ $? -eq ]; then
+        filename=$(cat $XDG_CACHE_HOME/rec_filename)
+        (dragon --icon-only --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!)
+        if [ "$(cat $XDG_CACHE_HOME/rec_prev_dnd)" == "false" ]; then
+            swaync-client --dnd-off
+        fi
+        exit 1
+    fi
     filename=$(date +"%Y-%m-%d_%H:%M:%S").mp4
     echo '' > $XDG_CACHE_HOME/rec_filename
     echo 'false' > $XDG_CACHE_HOME/rec_paused
+    echo "$(swaync-client --get-dnd)" > $XDG_CACHE_HOME/rec_prev_dnd
+    swaync-client --dnd-on
     gpu-screen-recorder -w screen -restore-portal-session yes -q ultra -oc yes -cr full -f 160 -o $XDG_VIDEOS_DIR/"$filename" && echo "$filename" > $XDG_CACHE_HOME/rec_filename
     # reload module
     pkill -RTMIN+3 waybar
