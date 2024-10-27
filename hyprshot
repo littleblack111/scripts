@@ -13,12 +13,15 @@ fi
 trap notify EXIT
 
 notify () {
-    notify_cmd_shot='notify-send -u low -h string:x-dunst-stack-tag:obscreenshot -i /usr/share/archcraft/icons/dunst/picture.png'
+    notify_cmd_shot="notify-send -u low -i $dir/$file"
+    echo $notify_cmd_shot
     pngcheck ${dir}/"$file" > /dev/null
 	if [[ -e "$dir/$file" ]]; then
-		${notify_cmd_shot} "Screenshot Saved."
+		${notify_cmd_shot} "Screenshot Saved." "Screenshot saved in <i>'$dir/$file'</i>"
+        echo $notify_cmd_shot "Screenshot Saved." "Screenshot saved in <i>'$dir/$file'</i>"
 	else
-		${notify_cmd_shot} "Screenshot Canceled."
+		# ${notify_cmd_shot} "Screenshot Canceled."
+        exit
 	fi
 }
 
