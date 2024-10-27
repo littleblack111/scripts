@@ -17,6 +17,7 @@ function lower_music() {
         playerctl -p spotify volume 0.$i
         sleep 0.01
     done
+    playerctl -p spotify volume 0.$OTHERPLAYER_MUSIC_PERCENTAGE
 }
 
 function normal_music() {
@@ -24,6 +25,7 @@ function normal_music() {
         playerctl -p spotify volume 0.$i
         sleep 0.01
     done
+    playerctl -p spotify volume 0.$NORMAL_MUSIC_PLAYER_PERCENTAGE
 }
 
 if [ "$1" ]; then
@@ -33,7 +35,7 @@ if [ "$1" ]; then
     elif [[ "$1" == '--daemon' || "$1" == '-d' ]]; then
         while true; do
             if [[ "$(systemctl is-system-running)" == "running" || "$(systemctl is-system-running)" == "degraded" ]]; then
-                if [[ $(playerctl status -p chromium) == "Playing" ]]; then
+                if [[ $(playerctl status -p firefox) == "Playing" ]]; then
                     if [ $STATE -eq 0 ]; then
                         STATE=1
                         echo VideoDetected
