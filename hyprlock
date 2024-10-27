@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+$HOME/scripts/hypridle.sh --idle &
+/usr/bin/hyprlock
+$HOME/scripts/hypridle.sh --stopidle &
