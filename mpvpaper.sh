@@ -37,7 +37,7 @@ while true; do
     wallust run --backend full --skip-sequences "$XDG_CACHE_HOME/$(basename "$current_bg").png" &
     echo "$XDG_CACHE_HOME/$(basename "$current_bg").png"
 
-    swaync-client --reload-css
+    swaync-client --reload-css & pywalfox update
 
     prime-run ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/bg.png"
     current_bg=$(cat "$XDG_CACHE_HOME/current.bg")
