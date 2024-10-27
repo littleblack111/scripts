@@ -29,7 +29,7 @@ function idle() {
     fi
     # script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
     # script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
-    topgrade -y --no-retry
+    topgrade -y --no-retry &
 
     if [ $pmusic ]; then
         if [[ $(playerctl status -p spotify) == "Playing" ]]; then
