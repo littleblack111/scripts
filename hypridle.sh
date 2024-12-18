@@ -29,8 +29,8 @@ function idle() {
     fi
     # script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
     # script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
-    topgrade -y --no-retry &
-
+    # topgrade -y --no-retry &
+    checkupdates --download &
     if [ $pmusic ]; then
         if [[ $(playerctl status -p spotify) == "Playing" ]]; then
             touch $XDG_CACHE_HOME/playing-music
@@ -54,12 +54,15 @@ function stopidle() {
     #    notify-send "ERROR: \$soundlevel is not set, unknown sound level..."
     #fi
     # Re-enable mouse
+    if [[ "$(swaync-client --get-dnd)" == "true" ]]; then
+        notify-send -e 'Do not Disturb' 'Do not Disturb is still enabled'
+    fi
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
         amixer set Master unmute &
-    elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
-        notify-send -u critical "ERROR: Volume(sound) is not muted" &
-    elif [ $mutev ] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-        notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)" &
+    # elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
+        # notify-send -e -u critical "ERROR: Volume is not muted" &
+    # elif [ $mutev ] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
+        # notify-send -e -u critical "Unable to get volume status: $(pactl get-sink-mute @DEFAULT_SINK@)" &
     fi
     /sbin/killall update.sh yay &
     if [ $pmusic ] && [ -f $XDG_CACHE_HOME/playing-music ]; then
