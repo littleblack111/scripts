@@ -74,7 +74,10 @@ shot10 () {
 }
 
 shotarea () {
-    g=$(slurp -d) || exit 1
+    g=$(wayfreeze --after-freeze-cmd "slurp -d; killall wayfreeze")
+    if [[ -z "$g" ]]; then
+        exit 0
+    fi
     grim -g "$g" - | copy_shot
 	notify_view
 }
