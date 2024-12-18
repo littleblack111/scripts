@@ -3190,7 +3190,7 @@ EOF
 fi
 if [[ "$install" == set ]]; then
     packagename=$(ls *.zst)
-    pacman -U $packagename
+    sudo pacman -U $packagename
 else
     mv *.zst "$(dirname "$package_with_full_path")"
 fi
