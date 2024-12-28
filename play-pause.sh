@@ -1,6 +1,16 @@
 #!/bin/bash
 
-if hyprctl activewindow | grep 'class: zen-alpha' > /dev/null; then
+WORKSPACE=$(hyprctl activeworkspace -j | jq '.id')
+WWORKSPACE=$(hyprctl clients -j | jq -r '.[] | select(.class == "zen-beta") | .workspace.name')
+
+while IFS= read -r line; do
+    if [[ "$line" == "$WORKSPACE" ]]; then
+        ACTIVE=true
+        break
+    fi
+done < <(echo "$WWORKSPACE")
+
+if [ $ACTIVE ]; then
     playerctl -p spotify play-pause
 elif [[ "$(playerctl status firefox)" == "Playing" ]]; then
     playerctl --all-players pause
