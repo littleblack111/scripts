@@ -35,6 +35,7 @@ while true; do
     # done
 
     wallust run --backend full --skip-sequences "$XDG_CACHE_HOME/$(basename "$current_bg").png" &
+    hyprctl reload config-only
     echo "$XDG_CACHE_HOME/$(basename "$current_bg").png"
 
     swaync-client --reload-css & pywalfox update
