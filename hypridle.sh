@@ -53,10 +53,6 @@ function stopidle() {
     #elif [ $mutev ] && [ ! $soundlevel ]; then
     #    notify-send "ERROR: \$soundlevel is not set, unknown sound level..."
     #fi
-    # Re-enable mouse
-    if [[ "$(swaync-client --get-dnd)" == "true" ]]; then
-        notify-send -e 'Do not Disturb' 'Do not Disturb is still enabled'
-    fi
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
         amixer set Master unmute &
     # elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
@@ -72,6 +68,9 @@ function stopidle() {
     # killall -CONT swww.sh || $HOME/scripts/swww.sh &
     rm -f $XDG_CACHE_HOME/playing-music
     brillo -I
+    if [[ "$(swaync-client --get-dnd)" == "true" ]]; then
+        notify-send -e 'Do not Disturb' 'Do not Disturb is still enabled'
+    fi
 }
 
 if [ "$1" ]; then
