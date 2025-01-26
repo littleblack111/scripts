@@ -43,6 +43,7 @@ function idle() {
     brillo -S 0
     # turn off debug overlay just in case we forget
     hyprctl keyword debug:overlay false
+    killall -STOP mpvpaper.sh mpvpaper
 }
 
 function stopidle() {
@@ -53,6 +54,7 @@ function stopidle() {
     #elif [ $mutev ] && [ ! $soundlevel ]; then
     #    notify-send "ERROR: \$soundlevel is not set, unknown sound level..."
     #fi
+    killall wallust mpvpaper.sh & $HOME/scripts/mpvpaper.sh &
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
         amixer set Master unmute &
     # elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
