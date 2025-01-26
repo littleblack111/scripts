@@ -1,7 +1,10 @@
 #!/bin/bash
 
-while read pipe; do
+tput sc
+
+while IFS= read -r pipe; do
     tput rc; tput el
-    printf "\r$pipe" | tr "\n" "\r"
+    printf "%s" "$pipe"
 done
+
 echo
