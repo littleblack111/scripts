@@ -35,7 +35,8 @@ function recorder() {
     echo 'false' > $XDG_CACHE_HOME/rec_paused
     echo "$(swaync-client --get-dnd)" > $XDG_CACHE_HOME/rec_prev_dnd
     swaync-client --dnd-on
-    gpu-screen-recorder -w screen -restore-portal-session yes -q ultra -oc yes -cr full -f 160 -o $XDG_VIDEOS_DIR/"$filename" && echo "$filename" > $XDG_CACHE_HOME/rec_filename
+    echo "$filename" > $XDG_CACHE_HOME/rec_filename
+    gpu-screen-recorder -w screen -restore-portal-session yes -q ultra -oc yes -cr full -f 160 -o $XDG_VIDEOS_DIR/"$filename"
     # reload module
     pkill -RTMIN+3 waybar
 }
