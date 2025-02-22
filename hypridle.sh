@@ -20,12 +20,12 @@ function idle() {
     #    soundlevel=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
     #    amixer set Master 0%
     #fi
-    if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
-        amixer set Master mute
-    elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
+    if [ $mutev ] && [[ "$(wpctl get-volume @DEFAULT_AUDIO_SINK@)" != *"[MUTED]" ]]; then
+      wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
+    elif [ $mutev ] && [[ "$(wpctl get-volume @DEFAULT_AUDIO_SINK@)" == *"[MUTED]" ]]; then
         notify-send "Warning: Volume is already muted"
-    elif [ $mutev ] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-        notify-send -u critical "Unable to get volume(sound) status: $(pactl get-sink-mute @DEFAULT_SINK@)"
+    elif [ $mutev ]; then
+        notify-send -u critical "Unable to get volume(sound) status: $(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
     fi
     # script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
     # script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
@@ -56,7 +56,7 @@ function stopidle() {
     #fi
     killall wallust mpvpaper.sh & $HOME/scripts/mpvpaper.sh &
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-        amixer set Master unmute &
+      wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 &
     # elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
         # notify-send -e -u critical "ERROR: Volume is not muted" &
     # elif [ $mutev ] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]] && [[ ! $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
@@ -71,7 +71,8 @@ function stopidle() {
     rm -f $XDG_CACHE_HOME/playing-music
     brillo -I
     if [[ "$(swaync-client --get-dnd)" == "true" ]]; then
-        notify-send -e 'Do not Disturb' 'Do not Disturb is still enabled'
+        # notify-send -e 'Do not Disturb' 'Do not Disturb is still enabled'
+        hyprctl notify 2 3000 0 "Do not Disturb is still enabled"
     fi
 }
 
