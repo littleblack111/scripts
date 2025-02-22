@@ -60,12 +60,12 @@ while true; do
   killall -USR2 hyprlock &
 
   # next wallpaper
-  prime-run ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/bg.png"
+  ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/bg.png"
   current_bg=$(cat "$XDG_CACHE_HOME/current.bg")
   echo "$wallpappath" > "$XDG_CACHE_HOME/current.bg"
 
   # generates cache for next wallpaper
-  ( prime-run ffmpeg -hwaccel cuda -i "$wallpappath" -y "$XDG_CACHE_HOME/$(basename $wallpappath).png"; nice -n 20 wallust run --backend full --skip-templates --skip-sequences "$XDG_CACHE_HOME/$(basename $wallpappath).png" ) &
+  ( ffmpeg -hwaccel cuda -i "$wallpappath" -y "$XDG_CACHE_HOME/$(basename $wallpappath).png"; nice -n 20 wallust run --backend full --skip-templates --skip-sequences "$XDG_CACHE_HOME/$(basename $wallpappath).png" ) &
 
   nice -n 20 sleep $DELAY
 done
