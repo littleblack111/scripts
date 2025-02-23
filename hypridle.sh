@@ -16,10 +16,20 @@ pmusic=true # stop/start music from playing - command or un-comment
 
 function idle() {
     /sbin/echo "User is idle(afk) in $(date)"
-    #if [ $mutev ]; then
-    #    soundlevel=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
-    #    amixer set Master 0%
-    #fi
+
+    # script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
+    # script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
+    # topgrade -y --no-retry &
+    checkupdates --download &
+    # killall -STOP hyprpaper.sh
+    # killall -STOP swww.sh
+    brillo -O
+    brillo -S 0
+    # turn off debug overlay just in case we forget
+    hyprctl keyword debug:overlay false
+    killall -STOP mpvpaper.sh mpvpaper $(pgrep -P $(pgrep mpvpaper.sh))
+
+    # sleep 30
     if [ $mutev ] && [[ "$(wpctl get-volume @DEFAULT_AUDIO_SINK@)" != *"[MUTED]" ]]; then
       wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
     elif [ $mutev ] && [[ "$(wpctl get-volume @DEFAULT_AUDIO_SINK@)" == *"[MUTED]" ]]; then
@@ -27,23 +37,17 @@ function idle() {
     elif [ $mutev ]; then
         notify-send -u critical "Unable to get volume(sound) status: $(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
     fi
-    # script -c "$HOME/scripts/update.sh" /var/log/sysupdate.log -a --force
-    # script -c 'topgrade -y --no-retry' /var/log/sysupdate.log -a --force
-    # topgrade -y --no-retry &
-    checkupdates --download &
+
     if [ $pmusic ]; then
-        if [[ $(playerctl status -p spotify) == "Playing" ]]; then
-            touch $XDG_CACHE_HOME/playing-music
-        fi
+        PLAYERS_FILE="$XDG_CACHE_HOME/players"
+        > "$PLAYERS_FILE"  # Clear/create the file
+        for player in $(playerctl --list-all); do
+            if [[ $(playerctl -p "$player" status 2>/dev/null) == "Playing" ]]; then
+                echo "$player" >> "$PLAYERS_FILE"
+            fi
+        done
         playerctl --all-players pause
     fi
-    # killall -STOP hyprpaper.sh
-    # killall -STOP swww.sh
-    brillo -O
-    brillo -S 0
-    # turn off debug overlay just in case we forget
-    hyprctl keyword debug:overlay false
-    killall -STOP mpvpaper.sh mpvpaper
 }
 
 function stopidle() {
@@ -54,7 +58,9 @@ function stopidle() {
     #elif [ $mutev ] && [ ! $soundlevel ]; then
     #    notify-send "ERROR: \$soundlevel is not set, unknown sound level..."
     #fi
-    killall wallust mpvpaper.sh & $HOME/scripts/mpvpaper.sh &
+    # killall wallust mpvpaper.sh & $HOME/scripts/mpvpaper.sh &
+    killall wallust &
+    killall -CONT mpvpaper.sh mpvpaper $(pgrep -P $(pgrep mpvpaper.sh))
     if [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
       wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 &
     # elif [ $mutev ] && [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: no" ]]; then
@@ -63,8 +69,14 @@ function stopidle() {
         # notify-send -e -u critical "Unable to get volume status: $(pactl get-sink-mute @DEFAULT_SINK@)" &
     fi
     /sbin/killall update.sh yay &
-    if [ $pmusic ] && [ -f $XDG_CACHE_HOME/playing-music ]; then
-        playerctl play -p spotify
+    if [ $pmusic ]; then
+        PLAYERS_FILE="$XDG_CACHE_HOME/players"
+        if [ -f "$PLAYERS_FILE" ]; then
+            while IFS= read -r player; do
+                playerctl -p "$player" play 2>/dev/null
+            done < "$PLAYERS_FILE"
+            rm -f "$PLAYERS_FILE"
+        fi
     fi
     # killall -CONT hyprpaper.sh || $HOME/scripts/hyprpaper.sh &
     # killall -CONT swww.sh || $HOME/scripts/swww.sh &
