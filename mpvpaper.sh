@@ -27,7 +27,7 @@ while true; do
   fi
   wallpappath=$(find "$WALLPAPERS" | shuf -n 1)
 
-  if [ ! -f "$XDG_CACHE_HOME/$(basename "$current_bg").png" ]; then ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/$(basename $current_bg).png" > /dev/null || echo -e "${RED}Generation of static background image failed${NC}"; fi
+  if [ ! -f "$XDG_CACHE_HOME/$(basename "$current_bg").png" ]; then ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/$(basename $current_bg).png"; fi
 
   # wallust run --skip-sequences $current_bg
   # wallust run --backend kmeans --skip-sequences $current_bg & # using cache now
@@ -35,9 +35,8 @@ while true; do
   # for output in $(hyprctl monitors | grep "Monitor" | awk '{print $2}'); do
       # mpvpaper --auto-pause --mpv-options="hwdec=auto --no-audio --loop" --fork "$output" "$current_bg"
 
-  OLD_MPVPAPER_PIDS=$(pgrep mpvpaper)
-  ( while ! ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "/tmp/wall.mp4" > /dev/null 2>&1; do ffmpeg -hwaccel cuda -i "$wallpappath" -filter_complex "[0]trim=end=1,setpts=PTS-STARTPTS[begin];[0]trim=start=1,setpts=PTS-STARTPTS[end];[end][begin]xfade=fade:duration=0.5:offset=8.5" -c:v libx264 -profile:v main -pix_fmt yuv420p -y /tmp/wall.mp4 > /dev/null; done )
-  mpvpaper --auto-pause --mpv-options="hwdec=auto --no-audio --loop --mute" --fork "*" "/tmp/wall.mp4"
+  OLD_MPVPAPER_PIDS=$(pidof mpvpaper)
+  mpvpaper --auto-pause --mpv-options="hwdec=auto --no-audio --loop --mute" --fork "*" "$current_bg"
 
   # Wait a brief moment to ensure new instance is running
   sleep 0.1
@@ -45,18 +44,14 @@ while true; do
   # Kill old instances if they exist
   if [ -n "$OLD_MPVPAPER_PIDS" ]; then
       for pid in $OLD_MPVPAPER_PIDS; do
-        if [[ $pid != $$ ]]; then
-          ( kill $pid 2>/dev/null & sleep 2 && kill -9 $pid 2>/dev/null ) &
-        fi
+          kill $pid 2>/dev/null
       done
   fi
 
   # done
 
   wallust run --backend full --skip-sequences "$XDG_CACHE_HOME/$(basename "$current_bg").png"
-
-  # tell hypr* where is bg
-  echo "\$bg = $XDG_CACHE_HOME/$(basename "$current_bg").png" > "$XDG_CONFIG_HOME/hypr/bg.conf"
+  echo "$XDG_CACHE_HOME/$(basename "$current_bg").png"
 
   # reload hyprland
   hyprctl reload config-only &
@@ -69,13 +64,12 @@ while true; do
   killall -USR2 hyprlock &
 
   # next wallpaper
-  # ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/bg.png"
+  ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/bg.png"
   current_bg=$(cat "$XDG_CACHE_HOME/current.bg")
   echo "$wallpappath" > "$XDG_CACHE_HOME/current.bg"
 
   # generates cache for next wallpaper
-  ( ffmpeg -hwaccel cuda -i "$wallpappath" -y "$XDG_CACHE_HOME/$(basename $wallpappath).png"; nice -n 20 wallust run --backend full --skip-templates --skip-sequences "$XDG_CACHE_HOME/$(basename $wallpappath).png" > /dev/null ) &
-  # sleep 10 to ensure mpvpaper already get the wall
-  ( sleep 3; rm -f /tmp/wall.mp4 && while ! ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "/tmp/wall.mp4" > /dev/null 2>&1; do ffmpeg -hwaccel cuda -i "$wallpappath" -filter_complex "[0]trim=end=1,setpts=PTS-STARTPTS[begin];[0]trim=start=1,setpts=PTS-STARTPTS[end];[end][begin]xfade=fade:duration=0.5:offset=8.5" -c:v libx264 -profile:v main -pix_fmt yuv420p /tmp/wall.mp4; done ) &
+  ( ffmpeg -hwaccel cuda -i "$wallpappath" -y "$XDG_CACHE_HOME/$(basename $wallpappath).png"; nice -n 20 wallust run --backend full --skip-templates --skip-sequences "$XDG_CACHE_HOME/$(basename $wallpappath).png" ) &
+
   nice -n 20 sleep $DELAY
 done
