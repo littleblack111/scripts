@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORKSPACE=$(hyprctl activeworkspace -j | jq '.id')
-WWORKSPACE=$(hyprctl clients -j | jq -r '.[] | select(.class == "zen-beta") | .workspace.name')
+WWORKSPACE=$(hyprctl clients -j | jq -r '.[] | select(.class == "zen") | .workspace.name')
 
 while IFS= read -r line; do
     if [[ "$line" == "$WORKSPACE" ]]; then
