@@ -28,9 +28,17 @@ while true; do
     # wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg) & # using cache now
     swww img $(cat $XDG_CACHE_HOME/current.bg) $swwwarg
     wallust run --backend full --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)
-    (sleep 0.1; pgrep -f wallust && wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)) &
+    # (sleep 0.1; pgrep -f wallust && wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)) &
+
+	# tell hypr* where is bg
+	echo "\$bg = $XDG_CACHE_HOME/$(basename "$current_bg").png" > "$XDG_CONFIG_HOME/hypr/bg.conf"
+
+	# reload hyprland
+	hyprctl reload config-only &
 
     swaync-client --reload-css
+
+	gdbus call --session --dest com.mitchellh.ghostty --object-path /com/mitchellh/ghostty --method org.gtk.Actions.Activate reload-config [] [] &
 
     current_bg=$(cat $XDG_CACHE_HOME/current.bg)
     if [[ $current_bg == *.jpg ]]; then
