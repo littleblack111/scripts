@@ -51,6 +51,10 @@ while true; do
   # done
 
   wallust run --backend full --skip-sequences "$XDG_CACHE_HOME/$(basename "$current_bg").png"
+
+  # tell hypr* where is bg
+  echo "\$bg = $XDG_CACHE_HOME/$(basename "$current_bg").png" > "$XDG_CONFIG_HOME/hypr/bg.conf"
+
   echo "$XDG_CACHE_HOME/$(basename "$current_bg").png"
 
   # reload hyprland
