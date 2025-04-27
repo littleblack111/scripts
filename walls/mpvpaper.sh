@@ -50,30 +50,14 @@ while true; do
 
   # done
 
-  wallust run --backend full --skip-sequences "$XDG_CACHE_HOME/$(basename "$current_bg").png"
+  # Update theme and configurations for current wallpaper
+  nice -n 20 bash "$(dirname "$0")/update.sh" "$current_bg"
 
-  # tell hypr* where is bg
-  echo "\$bg = $XDG_CACHE_HOME/$(basename "$current_bg").png" > "$XDG_CONFIG_HOME/hypr/bg.conf"
-
-  echo "$XDG_CACHE_HOME/$(basename "$current_bg").png"
-
-  # reload hyprland
-  hyprctl reload config-only &
-
-  swaync-client --reload-css & # & pywalfox update
-
-  gdbus call --session --dest com.mitchellh.ghostty --object-path /com/mitchellh/ghostty --method org.gtk.Actions.Activate reload-config [] [] &
-
-  # update hyprlock
-  killall -USR2 hyprlock &
-
-  # next wallpaper
-  ffmpeg -hwaccel cuda -i "$current_bg" -y "$XDG_CACHE_HOME/bg.png"
-  current_bg=$(cat "$XDG_CACHE_HOME/current.bg")
+  # Store next wallpaper path
   echo "$wallpappath" > "$XDG_CACHE_HOME/current.bg"
 
-  # generates cache for next wallpaper
-  ( ffmpeg -hwaccel cuda -i "$wallpappath" -y "$XDG_CACHE_HOME/$(basename $wallpappath).png"; nice -n 20 wallust run --backend full --skip-templates --skip-sequences "$XDG_CACHE_HOME/$(basename $wallpappath).png" ) &
+  # Generate cache for next wallpaper in background
+  ( nice -n 20 bash "$(dirname "$0")/update.sh" "$wallpappath" ) &
 
   nice -n 20 sleep $DELAY
 done

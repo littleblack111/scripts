@@ -4,7 +4,6 @@ XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
 XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 WALLPAPERS="$XDG_PICTURES_DIR/wallpapers/"
-current_bg="$(cat $XDG_CACHE_HOME/current.bg)"
 swwwarg="--transition-type random --transition-duration 0.85 --transition-fps 160 --transition-bezier 1,0.33,0.3,1"
 
 # colors
@@ -23,15 +22,16 @@ while true; do
         echo -e "${GREEN}Regenerating wallpappath${NC}"
         wallpappath=$(find "$WALLPAPERS" | shuf -n 1)
     fi
+	current_bg="$(cat $XDG_CACHE_HOME/current.bg)"
 
     # wallust run --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)
     # wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg) & # using cache now
-    swww img $(cat $XDG_CACHE_HOME/current.bg) $swwwarg
-    wallust run --backend full --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)
+    swww img $current_bg $swwwarg
+    wallust run --backend full --skip-sequences $(cat $XDG_CACHE_HOME/current.bg) &
     # (sleep 0.1; pgrep -f wallust && wallust run --backend kmeans --skip-sequences $(cat $XDG_CACHE_HOME/current.bg)) &
 
 	# tell hypr* where is bg
-	echo "\$bg = $XDG_CACHE_HOME/$(basename "$current_bg").png" > "$XDG_CONFIG_HOME/hypr/bg.conf"
+	echo "\$bg = $current_bg" > "$XDG_CONFIG_HOME/hypr/bg.conf"
 
 	# reload hyprland
 	hyprctl reload config-only &
@@ -41,11 +41,6 @@ while true; do
 	gdbus call --session --dest com.mitchellh.ghostty --object-path /com/mitchellh/ghostty --method org.gtk.Actions.Activate reload-config [] [] &
 
     current_bg=$(cat $XDG_CACHE_HOME/current.bg)
-    if [[ $current_bg == *.jpg ]]; then
-        magick convert $current_bg $XDG_CACHE_HOME/bg.png &
-    else
-        cp $current_bg $XDG_CACHE_HOME/bg.png
-    fi
     echo $wallpappath > $XDG_CACHE_HOME/current.bg
     # update hyprlock
     killall -SIGUSR2 hyprlock
