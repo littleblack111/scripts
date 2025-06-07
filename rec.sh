@@ -24,7 +24,7 @@ function recorder() {
     killall -SIGINT gpu-screen-recorder
     if [ $? -eq 0 ]; then
         filename=$(cat $XDG_CACHE_HOME/rec_filename)
-        (dragon --icon-only --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!)
+        (dragon-drop --thumb-size 512 --and-exit "$XDG_VIDEOS_DIR/$filename" & sleep 10 && kill $!)
         if [ "$(cat $XDG_CACHE_HOME/rec_prev_dnd)" == "false" ]; then
             swaync-client --dnd-off
         fi

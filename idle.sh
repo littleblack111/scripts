@@ -23,12 +23,12 @@ IDLEBACKTIME=100
 
 if [ ! -d $lockpath ]; then
     /sbin/echo "Lock path does not exist, creating it"
-    sudo /sbin/mkdir -vp $lockpath || /sbin/echo "Failed to create lock path at $lockpath"
+    sudo -n /sbin/mkdir -vp $lockpath || /sbin/echo "Failed to create lock path at $lockpath"
 fi
 
 function cleanup() {
     /sbin/echo "Cleaning up..."
-    sudo /sbin/rm -rf $lockpath || /sbin/echo "Failed removing locks at $lockpath"
+    sudo -n /sbin/rm -rf $lockpath || /sbin/echo "Failed removing locks at $lockpath"
     /sbin/echo "Exiting..."
     exit 0
 }
@@ -41,7 +41,7 @@ function idle() {
     fi
     /sbin/echo "User is idle(afk) in $(date)"
     /sbin/echo "Creating lock file"
-    sudo /sbin/touch $lockpath/$lockfile || /sbin/echo "Failed to create lock file at $lockpath/$lockfile"
+    sudo -n /sbin/touch $lockpath/$lockfile || /sbin/echo "Failed to create lock file at $lockpath/$lockfile"
     #if [ $mutev ]; then
     #    soundlevel=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
     #    amixer set Master 0%
@@ -101,14 +101,14 @@ function stopidle() {
         unset m
     fi
     /sbin/echo "Removing lock file"
-    sudo /sbin/rm -f $lockpath/$lockfile || /sbin/echo "Failed removing lock file at $lockpath/$lockfile"
+    sudo -n /sbin/rm -f $lockpath/$lockfile || /sbin/echo "Failed removing lock file at $lockpath/$lockfile"
 }
 
 if [ "$1" ]; then
     if [[ "$1" == '-d' || "$1" == '--daemon' ]]; then
         if ! pgrep "$0"; then
             /sbin/echo -n "PID: "
-            /sbin/echo $$ | sudo /sbin/tee $lockpath/$pidfile || echo "PID Grab failed"
+            /sbin/echo $$ | sudo -n /sbin/tee $lockpath/$pidfile || echo "PID Grab failed"
         else
             /sbin/echo "An instance of this program is dectected, please close that instance in order to launch another"
         fi
@@ -135,13 +135,13 @@ if [ "$1" ]; then
         exit 0
     elif [[ "$1" == '--continue' || "$1" == '--stopidle' ]]; then
         #/sbin/kill -s 4 $(/sbin/cat $lockpath/$pidfile)
-        sudo /sbin/touch $lockpath/$lockfile
+        sudo -n /sbin/touch $lockpath/$lockfile
         exit 0
     elif [[ "$1" == '--disable' || "$1" == '-dis' ]]; then
-        sudo /sbin/touch $lockpath/$disablelockfile
+        sudo -n /sbin/touch $lockpath/$disablelockfile
         exit 0
     elif [[ "$1" == '--enable' || "$1" == '-en' ]]; then
-        sudo /sbin/rm -f $lockpath/$disablelockfile
+        sudo -n /sbin/rm -f $lockpath/$disablelockfile
         exit 0
     fi
 fi

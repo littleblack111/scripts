@@ -19,7 +19,7 @@
 
 #set default editor
 if [ -z $VIM_PATH ]; then
-	VIM_PATH=/usr/bin/lvim
+	VIM_PATH=/usr/bin/nvim
 fi
 
 #check if an argument is provided

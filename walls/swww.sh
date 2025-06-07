@@ -4,7 +4,7 @@ XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
 XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 WALLPAPERS="$XDG_PICTURES_DIR/wallpapers/"
-swwwarg="--transition-type random --transition-duration 0.85 --transition-fps 160 --transition-bezier 1,0.33,0.3,1"
+swwwarg="--transition-type any --transition-duration 0.85 --transition-fps 160 --transition-bezier 1,0.33,0.3,1"
 
 # colors
 RED='\033[0;31m'
@@ -39,8 +39,9 @@ while true; do
     swaync-client --reload-css
 
 	# gdbus call --session --dest com.mitchellh.ghostty --object-path /com/mitchellh/ghostty --method org.gtk.Actions.Activate reload-config [] [] &
-	kitten @ action load_config_file
-	kitty @ set-colors --all --configured ~/.config/kitty/colors.conf
+	# kitten @ action load_config_file
+	# kitty @ set-colors --all --configured ~/.config/kitty/colors.conf
+	killall -SIGUSR1 kitty
 
     echo $wallpappath > $XDG_CACHE_HOME/current.bg
     # update hyprlock

@@ -33,7 +33,8 @@ ffmpeg -hwaccel cuda -i "$WALLPAPER" -y "$XDG_CACHE_HOME/bg.png"
     swaync-client --reload-css &
 
     # gdbus call --session --dest com.mitchellh.ghostty --object-path /com/mitchellh/ghostty --method org.gtk.Actions.Activate reload-config [] [] &
-	kitten @ action load_config_file
+	# kitten @ action load_config_file
+	killall -SIGUSR1 kitty
 
     killall -USR2 hyprlock &
 ) &

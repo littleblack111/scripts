@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-# Icons
 iDIR='/usr/share/archcraft/icons/dunst'
 
-# Notify 
 notify_bl() {
     backlight="$(brillo -G)"
     current="${backlight%%%}"
@@ -21,17 +19,14 @@ notify_bl() {
     get_icon && dunstify -u low -h string:x-dunst-stack-tag:obbacklight -i "$icon" "Brightness : $(brillo -G)"
 }
 
-# Increase brightness
 inc_backlight() {
     brillo -A 10 # && notify_bl
 }
 
-# Decrease brightness
 dec_backlight() {
     brillo -U 10 # && notify_bl
 }
 
-# Execute accordingly
 if [[ "$1" == "--get" ]]; then
     brillo -G
 elif [[ "$1" == "--inc" ]]; then
