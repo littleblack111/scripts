@@ -3,8 +3,9 @@
 renice -n 19 $$
 ionice -c 3 -p $$
 
-NIGHT_GAMMA=95
-NIGHT_TEMP=6000
+# NIGHT_GAMMA=95
+NIGHT_TEMP=5500
+NORMAL_TEMP=6000
 SUNRISE_HOUR=6
 SUNSET_HOUR=20
 
@@ -13,11 +14,12 @@ apply_settings() {
   
   if [ $current_hour -ge $SUNRISE_HOUR -a $current_hour -lt $SUNSET_HOUR ]; then
     echo "Applying day settings"
-    hyprctl hyprsunset identity
+    # hyprctl hyprsunset identity
+    hyprctl hyprsunset temperature $NORMAL_TEMP
   else
     echo "Applying night settings"
+    # hyprctl hyprsunset gamma $NIGHT_GAMMA
     hyprctl hyprsunset temperature $NIGHT_TEMP
-    hyprctl hyprsunset gamma $NIGHT_GAMMA
   fi
 }
 

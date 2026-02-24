@@ -33,25 +33,29 @@ if [ "$1" ]; then
         /sbin/echo -e "Usage: $0 [OPTION]\n\nOptions:\n\t-l|--lower\tTo lower music volume\n\t-n|--normal\tTo set music volume to normal"
         exit 0
     elif [[ "$1" == '--daemon' || "$1" == '-d' ]]; then
+		    while true; do
+	        if [[ "$(systemctl is-system-running)" == "running" || "$(systemctl is-system-running)" == "degraded" ]]; then
+	        	break
+        	fi
+        	sleep 1
+	      done
         while true; do
-            if [[ "$(systemctl is-system-running)" == "running" || "$(systemctl is-system-running)" == "degraded" ]]; then
-                if [[ $(playerctl status -p firefox) == "Playing" ]]; then
-                    if [ $STATE -eq 0 ]; then
-                        STATE=1
-                        echo VideoDetected
-                        lower_music
-                    fi
-                elif [[ $(playerctl status -p spotify) == "Playing" ]]; then
-                    if [ $STATE -eq 1 ]; then
-                        STATE=0
-                        echo VideoGone
-                        normal_music
-                    fi
-                else
-                    sleep 5
-                fi
-                sleep 1
-            fi
+          if [[ $(playerctl status -p firefox) == "Playing" ]]; then
+              if [ $STATE -eq 0 ]; then
+                  STATE=1
+                  echo VideoDetected
+                  lower_music
+              fi
+          elif [[ $(playerctl status -p spotify) == "Playing" ]]; then
+              if [ $STATE -eq 1 ]; then
+                  STATE=0
+                  echo VideoGone
+                  normal_music
+              fi
+          else
+              sleep 5
+          fi
+              sleep 1
         done
         exit 0
     elif [[ "$1" == '--lower' || "$1" == '-l' ]]; then

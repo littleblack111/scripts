@@ -3,62 +3,63 @@
 XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 
 function prepsound() {
-    tDIR=$XDG_CACHE_HOME/stoggle
+	tDIR=$XDG_CACHE_HOME/stoggle
 
-    if [ ! -d $tDIR ]; then
-        mkdir -p $tDIR || exit 1
-    fi
-    sDIR=/usr/share/sounds/freedesktop/stereo
+	if [ ! -d $tDIR ]; then
+		mkdir -p $tDIR || exit 1
+	fi
+	sDIR=/usr/share/sounds/freedesktop/stereo
 }
 
 function playSound() {
-    if [ ! $sDIR ]; then
-        echo Warning: Sound directory not set, setting to default
-        prepsound
-    fi
-    pw-play $sDIR/$1 || paplay $sDIR/$1
+	if [ ! $sDIR ]; then
+		echo Warning: Sound directory not set, setting to default
+		prepsound
+	fi
+	pw-play $sDIR/$1 || paplay $sDIR/$1
 }
 
 function getSound() {
-    prepsound
-    if [ -f $tDIR/$1 ]; then
-        return 1
-    else
-        return 0
-    fi
+	prepsound
+	if [ -f $tDIR/$1 ]; then
+		return 1
+	else
+		return 0
+	fi
 }
 
 function setSound() {
-    prepsound
+	prepsound
 
-    if [ ! -d $sDIR ]; then
-        mkdir -p $sDIR || exit 1
-    fi
-    if [ -f $sDIR/$1 ]; then
-        rm $sDIR/$1
-    else
-        touch $sDIR/$1
-    fi
+	if [ ! -d $sDIR ]; then
+		mkdir -p $sDIR || exit 1
+	fi
+	if [ -f $sDIR/$1 ]; then
+		rm $sDIR/$1
+	else
+		touch $sDIR/$1
+	fi
 }
 
 # if $(getSound screenshot); then
-    # echo "Screenshot sound is enabled"
+# echo "Screenshot sound is enabled"
 # else
-    # echo "Screenshot sound is disabled"
+# echo "Screenshot sound is disabled"
 # fi
 
 function screenshot() {
-    $HOME/scripts/hyprshot $@
+	$HOME/scripts/hyprshot $@
 }
 
 function volume() {
-    $HOME/scripts/hyprvol $@
+	$HOME/scripts/hyprvol $@
 }
 
 function brightness() {
-    $HOME/scripts/hyprbri $@
+	# $HOME/scripts/hyprbri $@
+	$HOME/scripts/ddcutil-client.sh $@
 }
 
 if [ "$1" ]; then
-    $@
+	$@
 fi
