@@ -20,9 +20,9 @@ trap 'kill -- -$$' EXIT
 
 function exec_action {
 	if [[ $ACTION == "Shutdown" ]]; then
-		$SHUTDOWN &!
+		$SHUTDOWN & disown
 	elif [[ $ACTION == "Reboot" ]]; then
-		$REBOOT &!
+		$REBOOT & disown
 	fi
 	kill $SELF
 }
@@ -56,3 +56,5 @@ for ((i=WAIT; i>=0; i--)); do
 	dialog $i &
 	sleep 1
 done
+
+exec_action
